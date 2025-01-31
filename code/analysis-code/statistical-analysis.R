@@ -1,56 +1,34 @@
-###############################
-# analysis script
-#
-#this script loads the processed, cleaned data, does a simple analysis
-#and saves the results to the results folder
+#load packages
+library("readxl")
+library("readr")
+library("dplyr")
+library("ggplot2")
+library("tidyverse")
+library("here")
+# load the data sets
+Immunology_lab_results <- read_excel("data/raw-data/Immunology lab results.xlsx")
+View(Immunology_lab_results)
+GENDER_DEUTERIUM_DILUTION_DATA <- read_excel("data/raw-data/GENDER DEUTERIUM DILUTION DATA.xlsx")
+View(GENDER_DEUTERIUM_DILUTION_DATA)
 
-#load needed packages. make sure they are installed.
-library(ggplot2) #for plotting
-library(broom) #for cleaning up output from lm()
-library(here) #for data loading/saving
+#select variables in both the data sets and later merge them together.
 
-#path to data
-#note the use of the here() package and not absolute paths
-data_location <- here::here("data","processed-data","processeddata.rds")
+gender_data<-GENDER_DEUTERIUM_DILUTION_DATA%>%
+  select(`Participant ID`, Sex, `Participant age`,BMI, Dose,`Fat in kg`)
+gender_data<-gender_data%>%
+  rename("ID"= `Participant ID`)
 
-#load data. 
-mydata <- readRDS(data_location)
+#select variables you will need in the next data set
+immune_data<-Immunology_lab_results%>%
+  select(ID,`CD4+`, `CD4 Immune activation count`)
 
+#we can now merge the two data sets int one.
+Tb_immune_data<-full_join(gender_data, immune_data,by = "ID")
 
-######################################
-#Data fitting/statistical analysis
-######################################
+#let me first save this data set. i will save this data in the processed data
+# folder since this is the data that i have cleaned and plan on using through
+# out the annalysis.
 
-############################
-#### First model fit
-# fit linear model using height as outcome, weight as predictor
+save_data_location <- here::here("data","processed-data","Tb_immune_data.rds")
+saveRDS(Tb_immune_data, file = save_data_location)
 
-lmfit1 <- lm(Height ~ Weight, mydata)  
-
-# place results from fit into a data frame with the tidy function
-lmtable1 <- broom::tidy(lmfit1)
-
-#look at fit results
-print(lmtable1)
-
-# save fit results table  
-table_file1 = here("results", "tables", "resulttable1.rds")
-saveRDS(lmtable1, file = table_file1)
-
-############################
-#### Second model fit
-# fit linear model using height as outcome, weight and gender as predictor
-
-lmfit2 <- lm(Height ~ Weight + Gender, mydata)  
-
-# place results from fit into a data frame with the tidy function
-lmtable2 <- broom::tidy(lmfit2)
-
-#look at fit results
-print(lmtable2)
-
-# save fit results table  
-table_file2 = here("results", "tables", "resulttable2.rds")
-saveRDS(lmtable2, file = table_file2)
-
-  

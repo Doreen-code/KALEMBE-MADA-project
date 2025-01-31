@@ -1,6 +1,6 @@
 ---
 title: "Example Manuscript Template for a Data Analysis Project"
-author: ""
+author: "Doreen Kibuule Kalembe"
 format:
   docx:
     toc: false
@@ -53,6 +53,66 @@ author's own and don't reflect their employer.
 
 # Summary/Abstract
 _Write a summary of your project._
+MADA PROJECT PART 1:
+
+TITLE: Sex-based analysis/Differences in TB Immune Activation.
+
+This project is aimed at looking at the differences in the Tuberculosis immune activation between males and females.( Sex-based analysis/Differences in TB Immune Activation
+Research Question)
+
+we shall use data from a tuberculosis public repository.
+•	Data source: Tidyverse 
+https://dataverse.unc.edu/dataset.xhtml?persistentId=doi:10.15139/S3/AYOFEU
+with a Sample size of 60 individuals. The data includes 60 different individual that accepted to take part in the study.
+
+The key variables that we shall look at are;
+
+
+Key variables: 
+- CD4 Immune activation count
+-	Disease severity indicators(Extent of lung disease andNumber of lungs involved)
+-Fat in kgs
+- Sex/Gender
+- BMI
+- Age of the participant 
+```{r}
+#load packages
+library("readxl")
+library("readr")
+library("dplyr")
+library("ggplot2")
+library("tidyverse")
+library("here")
+
+# follow through with the code folder to see the #variables in the data and how i selected the #variables make this data set. 
+#location of the data
+data_location <- here::here("data","processed-data","Tb_immune_data.rds")
+
+#loading the data
+data<- read_rds(data_location)
+
+#summary of the data
+summary(data)
+```
+
+
+Proposed Analysis Method
+
+•	Compare immune activation levels between males and females
+
+•	Correlate immune markers with disease severity measures/Correlation between activation levels and disease severity
+
+•	Use linear regression to analyze relationships between variables
+
+•	Control for potential confounding factors
+
+These are some of our Expected Outcomes.
+
+•	Check and Identify any sex-based differences in immune response.
+
+•	Quantify the relationship between immune activation and disease severity.
+
+•	Propose any insights for sex-specific treatment approaches
 
 
 {{< pagebreak >}}
@@ -64,7 +124,7 @@ _Write a summary of your project._
 _Provide enough background on your topic that others can understand the why and how of your analysis_ 
 
 ## Description of data and data source
-_Describe what the data is, what it contains, where it is from, etc. Eventually this might be part of a methods section._
+
 
 ## Questions/Hypotheses to be addressed
 _State the research questions you plan to answer with this analysis._
@@ -72,6 +132,7 @@ _State the research questions you plan to answer with this analysis._
 To cite other work (important everywhere, but likely happens first in introduction), make sure your references are in the bibtex file specified in the YAML header above and have the right bibtex key. Then you can include like this:
 
 Examples of reproducible research projects can for instance be found in [@mckay2020; @mckay2020a].
+
 
 
 
