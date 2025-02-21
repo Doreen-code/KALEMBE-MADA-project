@@ -108,7 +108,7 @@ p1<-ggplot(Final_data, aes(x=`LBM in kg`
 plot(p1)
 
 figure_file = here("results","figures","Scatterplot1.png")
-ggsave(filename = figure_file, plot=p1, width = 7, height = 5, dpi = 300)
+ggsave(filename = figure_file, plot=p1, width = 5, height = 3.7, dpi = 300)
 
 
 ##considering immune counts
@@ -128,7 +128,7 @@ p2<-ggplot(Final_data, aes(x= `Fat in kg`
   theme_minimal()
 plot(p2)
 figure_file = here("results","figures","Scatterplot2.png")
-ggsave(filename = figure_file, plot=p2, width = 7, height = 5, dpi = 300)
+ggsave(filename = figure_file, plot=p2, width = 5, height = 3.7, dpi = 300)
 ##immune activation counts
 ggplot(Final_data, aes(x= `Fat in kg`
                  , y=`CD4 Immune activation count`)) + 
@@ -145,7 +145,7 @@ p3<-ggplot(Final_data, aes(x = factor(Sex), y = `CD4 Immune activation count`,
   theme_minimal()
 plot(p3)
 figure_file = here("results","figures","boxplot1.png")
-ggsave(filename = figure_file, plot=p3, width = 7, height = 5, dpi = 300)
+ggsave(filename = figure_file, plot=p3, width = 5, height = 4, dpi = 300)
 
 
 
@@ -155,7 +155,7 @@ p4<-ggplot(Final_data, aes(x = Sex, y = `Fat in kg`, fill = Sex)) +
   ggtitle("Fat in kg by Sex")
 plot(p4)
 figure_file = here("results","figures","boxplot2.png")
-ggsave(filename = figure_file, plot=p4, width = 7, height = 5, dpi = 300)
+ggsave(filename = figure_file, plot=p4, width = 5, height = 3.8, dpi = 300)
 
 ##Mean cd4 count by sex
 ggplot(Final_data, aes(x = factor(Sex), y = `CD4 Immune activation count`, fill = factor(Sex))) +
