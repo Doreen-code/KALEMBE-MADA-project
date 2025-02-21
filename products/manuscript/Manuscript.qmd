@@ -122,19 +122,23 @@ These are some of our Expected Outcomes.
 
 ## General Background Information
 _Provide enough background on your topic that others can understand the why and how of your analysis_ 
+Tuberculosis (TB) remains a significant global public health challenge. According to the World Health Organization (WHO), reports show that  10 million new cases and 1.4 million deaths in 2023 [@Santos2007] were as a result of Tuberculosis. The spread of M. tuberculosis, as the pathogen of TB, has long been hypothesized to occur more often in the household than in the community[@Martinez2017]. While most of the M.Tuberculosis  transmission in the community is attributed to the unknown contact networks that occurs between individuals, this accounts upto 90% of the transmission. The recent outbreak of Tuberculosis in the united states clearly explains the contact network phenomena.
+Overall, TB accounts for one quarter of the annual deaths that happen worldwide. An estimated 10.0 million people fell ill with TB in 2018. Geographically, Southeast Asia ranked highest (44%), followed by Africa (24%) and the Western Pacific (18%), with lesser percentages in the Eastern Mediterranean (8%), the Americas (3%), and Europe (3%). Among women of reproductive years, TB is the largest cause of death [@Dye1998]. Global Strategies made by WHO, aim at ending the TB epidemic, with targets to reduce the number of deaths caused by TB  by 95% and to decrease new cases by 90% from 2015 to 2035[@Murgia2024]. 
+
+Mycobacterium tuberculosis infection is acquired mostly through sharing air space with an individual who has active tuberculosis and inhaling droplet aerosols produced by that person. Since this bacterium is transmitted via the respiratory route to susceptible individuals in the community, the household of an infectious person is an environment for intense transmission of M. tuberculosis where most new cases of infection and diseases might be detected and treated. 
+According some reports,they suggest that there are differences in the  responses to tuberculosis between men and women. These reports highlight greater barrier to early detection and treatment of tuberculosis to be greater for women than men. 
+
+The World Health Organisations, among others, attributed to the differences in the tuberculosis trends between men and women to access to care and treatment, pregnancy effects and gender rules that diminish the social capital of women hence lowering incidence among them[@CCWhalen2023]. Not forgetting that biological mechanisms might influence these differences,  previous studies show that men have a higher incidence and prevalence of disease and this might lead to bad treatment outcomes as compared to women. 
+
+Since the balance of fat and lean tissue differ in men and women especially at the time of presentation, the objective of this study will be to find out whether the more immune activation there is, the more infected / sicker is the person.
 
 ## Description of data and data source
+The data we used for this project was got from the TRAC dataverse and is fully accessible to everyone. This is considered a safe place where the the Tuberculosis data from the TRAc project is kept and can be used by anyone who wants contribute to TB research. More details about the data can be found [here]!(https://dataverse.unc.edu/dataset.xhtml?persistentId=doi:10.15139/S3/AYOFEU). The data is publicaly available and can be accessed by anyone.
 
 
 ## Questions/Hypotheses to be addressed
 _State the research questions you plan to answer with this analysis._
-
-To cite other work (important everywhere, but likely happens first in introduction), make sure your references are in the bibtex file specified in the YAML header above and have the right bibtex key. Then you can include like this:
-
-Examples of reproducible research projects can for instance be found in [@mckay2020; @mckay2020a].
-
-
-
+Since the balance of fat and lean tissue differ in men and women especially at the time of tuberculosis presentation, the objective of this study will be to find out whether there are differences in the Tuberculosis immune activation between males and females. We shall hypothesize on the more immune activation there is, the more infected / sicker the person.
 
 {{< pagebreak >}}
 
@@ -142,33 +146,29 @@ Examples of reproducible research projects can for instance be found in [@mckay2
 # Methods 
 
 _Describe your methods. That should describe the data, the cleaning processes, and the analysis approaches. You might want to provide a shorter description here and all the details in the supplement._
-
+Study Design
+This study utilized a cohort design analyzing data from 2021. We included all patients that were 15 years and older. The candidate must have had TB as their first episode, not on any hormonal therapy and does not take any hormonal birth control. The participant was not supposed to have diabetes melitus, cancer or HIV.Similarly,the exclusion criteria applied. All participants that were below the age of 15, reported TB as their second episode, took any form of hormanl therapy or biirth control , had diabetes melitus, cancer or HIV were excluded from the study. 
+The variables of interest were extracted from the TRAC dataset  and exported to an MS Excel sheet. The outcome variable was CD4+ immune activatin counts.  The primary independent variable was sex (cis-gender) and this was categorized as male and female. The covariates were age at diagnosis,BMI, Fat in Kg, lean body mass in kg(LBM in kg), CD4+ and CD4 immune activation counts.
 
 ## Schematic of workflow
+ Chromosomal sex and hormones play a role in the modulation of immune responses to Mtb and thereby contribute to the general outcome of disease. The first cells that encounter Mtb are known as Macrophages. These initiate a local inflammatory reaction which may differ between the sexes[@Hertz2018]. This causes the long term containment of TB infection to differ between men and women since their adaptive immune responses are different.   @tbfig-1
 
-Sometimes you might want to show a schematic diagram/figure that was not created with code (if you can do it with code, do it). @fig-schematic is an example of some - completely random/unrelated - schematic that was generated with Biorender.
-We store those figures in the `assets` folder.
 
 ```{r}
-#| label: fig-schematic
-#| fig-cap: "A figure that is manually generated and shows some overview/schematic. This has nothing to do with the data, it's just a random one from one of our projects I found and placed here."
+#| label: fig-1
+#| fig-cap: "Impact of sex differences on the immune response to Mtb and their influence disease outcome."
 #| echo: FALSE
-knitr::include_graphics(here("assets","antigen-recognition.png"))
+knitr::include_graphics(here("assets","tbfig-1.png"))
 ```
-
-
-
-
-## Data aquisition
-_As applicable, explain where and how you got the data. If you directly import the data from an online source, you can combine this section with the next._
-
 
 ## Data import and cleaning
 _Write code that reads in the file and cleans it so it's ready for analysis. Since this will be fairly long code for most datasets, it might be a good idea to have it in one or several R scripts. If that is the case, explain here briefly what kind of cleaning/processing you do, and provide more details and well documented code somewhere (e.g. as supplement in a paper). All materials, including files that contain code, should be commented well so everyone can follow along._
 
+We imported the data from MS Excel to R. We explored the data and found some missing values for some variables.  We decided to drop one observation since the person lacked the primary exposure and did not have most of the details we needed for our final analysis. We categorized the participants age into four categories. That is 17-<28, 28-<40, 40-<60 and >=60.
 
 ## Statistical analysis
 _Explain anything related to your statistical analyses._
+
 
 
 {{< pagebreak >}}
@@ -179,17 +179,13 @@ _Explain anything related to your statistical analyses._
 ## Exploratory/Descriptive analysis
 
 _Use a combination of text/tables/figures to explore and describe your data. Show the most important descriptive results here. Additional ones should go in the supplement. Even more can be in the R and Quarto files that are part of your project._
-
-
-@tbl-summarytable shows a summary of the data.
-
-Note the loading of the data providing a **relative** path using the `../../` notation. (Two dots means a folder up). You never want to specify an **absolute** path like `C:\ahandel\myproject\results\` because if you share this with someone, it won't work for them since they don't have that path. You can also use the `here` R package to create paths. See examples of that below. I generally recommend the `here` package.
+@tbl-TABLE1 shows a summary of the data
 
 ```{r}
-#| label: tbl-summarytable
-#| tbl-cap: "Data summary table."
+#| label: tbl-TABLE1
+#| tbl-cap: "Data descriptive summary table."
 #| echo: FALSE
-resulttable=readRDS("../../results/tables/summarytable.rds")
+resulttable=readRDS("../../results/tables/TABLE1.rds")
 knitr::kable(resulttable)
 ```
 
@@ -200,13 +196,37 @@ knitr::kable(resulttable)
 _To get some further insight into your data, if reasonable you could compute simple statistics (e.g. simple models with 1 predictor) to look for associations between your outcome(s) and each individual predictor variable. Though note that unless you pre-specified the outcome and main exposure, any "p<0.05 means statistical significance" interpretation is not valid._
 
 
-@fig-result shows a scatterplot figure produced by one of the R scripts.
+@fig1-result shows a scatter plot of lean body mass in kg and CD4
 
 ```{r}
-#| label: fig-result
-#| fig-cap: "Height and weight stratified by gender."
+#| label: fig1-result
+#| fig-cap: "Scatter plot of CD4+ cells versus LBM in kg."
 #| echo: FALSE
-knitr::include_graphics(here("results","figures","height-weight-stratified.png"))
+knitr::include_graphics(here("results","figures","scatterplot1.png"))
+```
+
+@fig2-result shows a scatter plot of CD4 vs Fat in kg.
+```{r}
+#| label: fig2-result
+#| fig-cap: "Scatter plot of CD4+ cells versus Fat in kg."
+#| echo: FALSE
+knitr::include_graphics(here("results","figures","scatterplot2.png"))
+```
+
+@plot1-result a boxplot of the cd4 immune activation count by sex.
+```{r}
+#| label: plot1-result
+#| fig-cap: "Box plot to show the distribution of cd4 count immune activation counts among males and females."
+#| echo: FALSE
+knitr::include_graphics(here("results","figures","boxplot1.png"))
+```
+
+@plot2-result a boxplot to show the distributions of fat in kilograms among males females.
+```{r}
+#| label: plot2-result
+#| fig-cap: "Box plot showing Fat in kg among males and females."
+#| echo: FALSE
+knitr::include_graphics(here("results","figures","boxplot2.png"))
 ```
 
 
@@ -251,6 +271,5 @@ Note that this cited reference will show up at the end of the document, the refe
 {{< pagebreak >}}
 
 # References
-
 
 
