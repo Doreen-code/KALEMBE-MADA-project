@@ -52,7 +52,7 @@ author's own and don't reflect their employer.
 
 
 # Summary/Abstract
-_Write a summary of your project._
+
 MADA PROJECT PART 1:
 
 TITLE: Sex-based analysis/Differences in TB Immune Activation.
@@ -121,7 +121,7 @@ These are some of our Expected Outcomes.
 # Introduction 
 
 ## General Background Information
-_Provide enough background on your topic that others can understand the why and how of your analysis_ 
+
 Tuberculosis (TB) remains a significant global public health challenge. According to the World Health Organization (WHO), reports show that  10 million new cases and 1.4 million deaths in 2023 [@Santos2007] were as a result of Tuberculosis. The spread of M. tuberculosis, as the pathogen of TB, has long been hypothesized to occur more often in the household than in the community[@Martinez2017]. While most of the M.Tuberculosis  transmission in the community is attributed to the unknown contact networks that occurs between individuals, this accounts upto 90% of the transmission. The recent outbreak of Tuberculosis in the united states clearly explains the contact network phenomena.
 Overall, TB accounts for one quarter of the annual deaths that happen worldwide. An estimated 10.0 million people fell ill with TB in 2018. Geographically, Southeast Asia ranked highest (44%), followed by Africa (24%) and the Western Pacific (18%), with lesser percentages in the Eastern Mediterranean (8%), the Americas (3%), and Europe (3%). Among women of reproductive years, TB is the largest cause of death [@Dye1998]. Global Strategies made by WHO, aim at ending the TB epidemic, with targets to reduce the number of deaths caused by TB  by 95% and to decrease new cases by 90% from 2015 to 2035[@Murgia2024]. 
 
@@ -137,7 +137,7 @@ The data we used for this project was got from the TRAC dataverse and is fully a
 
 
 ## Questions/Hypotheses to be addressed
-_State the research questions you plan to answer with this analysis._
+
 Since the balance of fat and lean tissue differ in men and women especially at the time of tuberculosis presentation, the objective of this study will be to find out whether there are differences in the Tuberculosis immune activation between males and females. We shall hypothesize on the more immune activation there is, the more infected / sicker the person.
 
 {{< pagebreak >}}
@@ -262,11 +262,6 @@ _What are the main take-home messages?_
 
 _Include citations in your Rmd file using bibtex, the list of references will automatically be placed at the end_
 
-This paper [@leek2015] discusses types of analyses. 
-
-These papers [@mckay2020; @mckay2020a] are good examples of papers published using a fully reproducible setup similar to the one shown in this template. 
-
-Note that this cited reference will show up at the end of the document, the reference formatting is determined by the CSL file specified in the YAML header. Many more style files for almost any journal [are available](https://www.zotero.org/styles). You also specify the location of your bibtex reference file in the YAML. You can call your reference file anything you like.
 
 
 {{< pagebreak >}}
