@@ -151,7 +151,8 @@ This study utilized a cohort design analyzing data from 2021. We included all pa
 The variables of interest were extracted from the TRAC dataset  and exported to an MS Excel sheet. The outcome variable was CD4+ immune activatin counts.  The primary independent variable was sex (cis-gender) and this was categorized as male and female. The covariates were age at diagnosis,BMI, Fat in Kg, lean body mass in kg(LBM in kg), CD4+ and CD4 immune activation counts.
 
 ## Schematic of workflow
- Chromosomal sex and hormones play a role in the modulation of immune responses to Mtb and thereby contribute to the general outcome of disease. The first cells that encounter Mtb are known as Macrophages. These initiate a local inflammatory reaction which may differ between the sexes[@Hertz2018]. This causes the long term containment of TB infection to differ between men and women since their adaptive immune responses are different.   @tbfig-1
+ Chromosomal sex and hormones play a role in the modulation of immune responses to Mtb and thereby contribute to the general outcome of disease. The first cells that encounter Mtb are known as Macrophages. These initiate a local inflammatory reaction which may differ between the sexes[@Hertz2018]. This causes the long term containment of TB infection to differ between men and women since their adaptive immune responses are different.
+ @tbfig-1
 
 
 ```{r}
