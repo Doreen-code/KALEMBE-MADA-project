@@ -13,11 +13,6 @@ csl: ../../assets/american-journal-of-epidemiology.csl
 
 
 
-The structure below is one possible setup for a manuscript, or a general data analysis project (including the course project). Adjust as needed. 
-You don't need to have exactly these sections, but the content covering those sections should be addressed.
-
-This uses MS Word as output format. [See here](https://quarto.org/docs/output-formats/ms-word.html) for more information. You can switch to other formats, like html or pdf. See [the Quarto documentation](https://quarto.org/) for other formats.
-
 
 ```{r, echo=FALSE, message=FALSE}
 # load a few R packages
@@ -36,12 +31,11 @@ library(knitr)
 **Author affiliations**  
 
 1. College of Public Health, University of Georgia, Athens, GA, USA.
-2. Another Affiliation, Athens, GA, USA.
-3. Yet another Affiliation.
+
 
 $*$ These authors contributed equally to this work.
 
-$\land$ Corresponding author: some@email.com
+$\land$ Corresponding author: kelvinbwambale8@gmail.com
 
 $\dagger$ Disclaimer: The opinions expressed in this article are the
 author's own and don't reflect their employer.
@@ -52,8 +46,6 @@ author's own and don't reflect their employer.
 
 
 # Summary/Abstract
-
-MADA PROJECT PART 1:
 
 TITLE: Sex-based analysis/Differences in TB Immune Activation.
 
