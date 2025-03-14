@@ -144,14 +144,14 @@ Since the balance of fat and lean tissue differ in men and women especially at t
 
 
 # Methods 
-
-_Describe your methods. That should describe the data, the cleaning processes, and the analysis approaches. You might want to provide a shorter description here and all the details in the supplement._
 Study Design
+
 This study utilized a cohort design analyzing data from 2021. We included all patients that were 15 years and older. The candidate must have had TB as their first episode, not on any hormonal therapy and does not take any hormonal birth control. The participant was not supposed to have diabetes melitus, cancer or HIV.Similarly,the exclusion criteria applied. All participants that were below the age of 15, reported TB as their second episode, took any form of hormanl therapy or biirth control , had diabetes melitus, cancer or HIV were excluded from the study. 
+
 The variables of interest were extracted from the TRAC dataset  and exported to an MS Excel sheet. The outcome variable was CD4+ immune activatin counts.  The primary independent variable was sex (cis-gender) and this was categorized as male and female. The covariates were age at diagnosis,BMI, Fat in Kg, lean body mass in kg(LBM in kg), CD4+ and CD4 immune activation counts.
 
 ## Schematic of workflow
- Chromosomal sex and hormones play a role in the modulation of immune responses to Mtb and thereby contribute to the general outcome of disease. The first cells that encounter Mtb are known as Macrophages. These initiate a local inflammatory reaction which may differ between the sexes[@Hertz2018]. This causes the long term containment of TB infection to differ between men and women since their adaptive immune responses are different.
+Chromosomal sex and hormones play a role in the modulation of immune responses to Mtb and thereby contribute to the general outcome of disease. The first cells that encounter Mtb are known as Macrophages. These initiate a local inflammatory reaction which may differ between the sexes[@Hertz2018]. This causes the long term containment of TB infection to differ between men and women since their adaptive immune responses are different.
  @tbfig-1
 
 
@@ -163,13 +163,13 @@ knitr::include_graphics(here("assets","tbfig-1.png"))
 ```
 
 ## Data import and cleaning
-_Write code that reads in the file and cleans it so it's ready for analysis. Since this will be fairly long code for most datasets, it might be a good idea to have it in one or several R scripts. If that is the case, explain here briefly what kind of cleaning/processing you do, and provide more details and well documented code somewhere (e.g. as supplement in a paper). All materials, including files that contain code, should be commented well so everyone can follow along._
 
 We imported the data from MS Excel to R. We explored the data and found some missing values for some variables.  We decided to drop one observation since the person lacked the primary exposure and did not have most of the details we needed for our final analysis. We categorized the participants age into four categories. That is 17-<28, 28-<40, 40-<60 and >=60.
 
 ## Statistical analysis
-_Explain anything related to your statistical analyses._
 
+The final cleaned data set contains some negative fat values.
+Negative values occur when the deuterium dose has not had sufficient time to fully equilibrate with body water, or the dose was not completely consumed. This is seen as low deuterium enrichment, resulting in an overestimation of the size of the body water pool and hence high FFM (FFMI = LBM / height2)and low % body fat.
 
 
 {{< pagebreak >}}
@@ -179,7 +179,8 @@ _Explain anything related to your statistical analyses._
 
 ## Exploratory/Descriptive analysis
 
-_Use a combination of text/tables/figures to explore and describe your data. Show the most important descriptive results here. Additional ones should go in the supplement. Even more can be in the R and Quarto files that are part of your project._
+We explored the data and using figures and summary tables. We used box plots, histograms and and correlation plots to see whether we can find something interesting in the data. Scatter plots were used to see the trends in the data and also see whether there are some interesting relationships between the continuous variables in the data. 
+
 @tbl-TABLE1 shows a summary of the data
 
 ```{r}
@@ -193,9 +194,7 @@ knitr::kable(resulttable)
 
 
 ## Basic statistical analysis
-
-_To get some further insight into your data, if reasonable you could compute simple statistics (e.g. simple models with 1 predictor) to look for associations between your outcome(s) and each individual predictor variable. Though note that unless you pre-specified the outcome and main exposure, any "p<0.05 means statistical significance" interpretation is not valid._
-
+We used simple linear model to inspect whether there was an association between our main outcome CD4 immune activation count and the the primary predictor sex. To improve the model, we added in other predictors that could influence the immune activation count by performing a multi-variant linear regression anlaysis. This was done make sure we minimize confounding.
 
 @fig1-result shows a scatter plot of lean body mass in kg and CD4
 
@@ -232,24 +231,39 @@ knitr::include_graphics(here("results","figures","boxplot2.png"))
 
 
 ## Full analysis
+In order to take care of confounding, we performed a multi-regression analysis and the results of the analysis are summarized in the table below. 
 
-_Use one or several suitable statistical/machine learning methods to analyze your data and to produce meaningful figures, tables, etc. This might again be code that is best placed in one or several separate R scripts that need to be well documented. You want the code to produce figures and data ready for display as tables, and save those. Then you load them here._
-
-Example @tbl-resulttable2 shows a summary of a linear model fit.
-
+This @tbl-model_table2 shows a summary of a  multi-variant linear regression model fit.
 ```{r}
-#| label: tbl-resulttable2
-#| tbl-cap: "Linear model fit table."
+#| label: tbl-model_table2
+#| tbl-cap: "Linear model summary table 2."
 #| echo: FALSE
-resulttable2 = readRDS(here("results","tables","resulttable2.rds"))
-knitr::kable(resulttable2)
+model_table2= readRDS(here("results","tables","model_table2.rds"))
+knitr::kable(model_table2)
 ```
+
+We went throught the steps of model building. First, we tested the null model which comprised of our main outcome and sex as the predictor. We did a stepwise selection using a foward direction approach with a our full model with all the interaction effects. We found that adding the interaction terms did not improve the model performance. We then considered the null model in comparison with the full model but this time round without interaction effects but all the predictors. Using the same procedure of stepwise selection using the foward direction chose the a simple linear model with just cd4+ as the only additional predictor.
+We performed a simple linear regression on the data between the CD4 immune activation count as the main outcome and sex plus cd4+ as predictors. We considered females  to be our reference level.
+
+This @tbl-model_table3 shows a summary of a  final linear model fit.
+```{r}
+#| label: tbl-model_table3
+#| tbl-cap: "Linear model fit table 3."
+#| echo: FALSE
+model_table3 = readRDS(here("results","tables","model_table3.rds"))
+knitr::kable(model_table3)
+```
+
 
 
 {{< pagebreak >}}
 
 
 # Discussion
+
+Our findings highlight a notable difference in CD4 immune activation count rates between males and females, with males exhibiting higher risk of TB infection and disease than females. The results show that men have a 735.34 increased immune activation count as compared to women. This result aligns with previous studies that have reported sex-based disparities in health outcomes and mortality risks as a result of TB[@Hertz2018],[@Mara2018]. Some studies still attribute the increased risk among males to be as a result of biological differences or differences in the accessibility of resources, especially healthcare. This is generally because women have better prognosis than men and they have better health seeking behavior as compared to their male counterparts. 
+
+Research shows that most women have higher fat repositories than men[@Karastergiou2012] and some studies show that the higher the fat percentage an individual has, the lower the risk of progression of the tuberculosis infection to disease hence lowering mortality rates among females compared to men. In addition, women tend to have more lean body mass compared to men hence having a lower chance of suffering from adverse effects of TB compared to men.
 
 ## Summary and Interpretation
 _Summarize what you did, what you found and what it means._

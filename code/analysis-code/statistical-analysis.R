@@ -1,5 +1,5 @@
 #load packages
-install.packages("table1")
+#install.packages("table1")
 library("readxl")
 library("readr")
 library("dplyr")
@@ -208,5 +208,88 @@ t.test(`Fat in kg`~ Sex, data = Final_data)
   #modify_spanning_header(c("stat_1", "stat_2") ~ "**Sex Groups**") 
 #bold_labels()
 
+#simple models with one predictor.
+#since sex is our major exposure of interst, we shall consider it first and then 
+#see how our outcome performs with it. we shall first see how this goes.
+model1 <- lm(`CD4+` ~ relevel(factor(Sex), ref = "F"), data = Final_data)
+summary(model1)
+#lets try it with the males as our reference group
+model2 <- lm(`CD4+` ~ relevel(factor(Sex), ref = "M"), data = Final_data)
+summary(model2)
 
-  
+#Using cd4 immune activation count .
+model3 <- lm(`CD4 Immune activation count` ~ relevel(factor(Sex), ref = "F"), data = Final_data)
+
+model_summary <- summary(model3)
+model_summary
+model_table1 <- as.data.frame(model_summary$coefficients)
+knitr::kable(model_table1)
+
+
+save_table2<-here::here("results","tables", "model_table1.rds")
+saveRDS(model_table1,file =save_table2 )
+
+#lets try to improve the model and also control for confounders. 
+
+
+model4 <- lm(`CD4 Immune activation count`~ relevel(factor(Sex), ref = "F") +
+               `Participant age` + BMI + `LBM in kg` + `Fat in kg` + `CD4+`,
+            data = Final_data)
+ summary(model4)
+model_summary2 <- summary(model4)
+model_table2 <- as.data.frame(model_summary2$coefficients)
+knitr::kable(model_table2)
+
+
+save_table3<-here::here("results","tables", "model_table2.rds")
+saveRDS(model_table2,file =save_table3 )
+#since we have our full model, lets try to perform a step wise selection procedure
+#to see which model will perform better.
+
+# First, fit your full model with all predictors so that we can see whether it is 
+#relevant for us to have all these predictors or not.
+model4 <- lm(`CD4 Immune activation count` ~ relevel(factor(Sex), ref = "F") + 
+                   `Participant age` + BMI + `LBM in kg` + `Fat in kg` + `CD4+`,
+                 data = Final_data)
+#then lets have a null model
+# Create the null model (intercept only)
+null_model <- lm(`CD4 Immune activation count` ~ relevel(factor(Sex), ref = "F"), data = Final_data)
+
+# Perform forward stepwise selection
+library(MASS) # we shall need this package to perform a step aic for model selection.
+forward_model <- stepAIC(null_model, 
+                      scope = list(lower = null_model, upper = model4),
+                      direction = "forward")
+
+# View the summary of the selected model
+summary(forward_model)
+
+#what if i wanted to tale into account the interaction effects
+# Define full model with interactions
+full_model_with_interactions <- lm(`CD4 Immune activation count` ~ 
+                                     (relevel(factor(Sex), ref = "F") + 
+                                        `Participant age` + BMI + `LBM in kg` + 
+                                        `Fat in kg` + `CD4+`)^2,  # The ^2 adds all 2-way interactions
+                                   data = Final_data)
+
+# Perform forward stepwise selection with interactions
+forward_model_interactions <- step(null_model, 
+                                   scope = list(lower = null_model, 
+                                                upper = full_model_with_interactions),
+                                   direction = "forward")
+summary(forward_model_interactions )
+#this means the interaction effects do not contribute to the model performance a
+#and hence there is no need of adding them.
+
+#from the above, we notice that adding very many predictors didnot necessarily 
+#improve the model. hence we ended up just maintaing the cd4 count and sex as 
+#our main predictors.
+model_summary3 <- summary(forward_model)
+model_table3 <- as.data.frame(model_summary3$coefficients)
+
+knitr::kable(model_table3)
+
+
+save_table3<-here::here("results","tables", "model_table3.rds")
+saveRDS(model_table3,file =save_table3 )
+
