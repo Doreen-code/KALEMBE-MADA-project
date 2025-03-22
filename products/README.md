@@ -3,11 +3,10 @@
 The folders inside this folder should contain all the products of this project.
 
  
-The `manuscript` folder contains a template. This template is structured as a report for a class.
-Inside this folder, we have a supplementary folder where we shall place all the supplementary materials like figures, tables or even papers.
+The `manuscript` folder contains a quarto file . This is the manuscript for the class project of the MADA PROJECT for spring 2025. 
 
 
-Since the manuscript comes with citations, we have placed all the refereces in the assets folder.
+Since the manuscript comes with citations, we have placed all the references in the assets folder.
 
 
 

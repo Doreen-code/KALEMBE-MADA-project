@@ -2,4 +2,5 @@
 
 Folder for all figures.
 
-You can create further sub-folders if that makes sense.
+
+This is majorly a folder for all the figures that we shall generate in the analysis of the results. 

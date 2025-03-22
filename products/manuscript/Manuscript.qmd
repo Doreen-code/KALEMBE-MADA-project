@@ -88,7 +88,7 @@ summary(data)
 ```
 
 
-Proposed Analysis Method
+Proposed Analysis Method.
 
 •	Compare immune activation levels between males and females
 
@@ -220,7 +220,6 @@ knitr::include_graphics(here("results","figures","boxplot1.png"))
 #| echo: FALSE
 knitr::include_graphics(here("results","figures","boxplot2.png"))
 ```
-
 
 ## Full analysis
 In order to take care of confounding, we performed a multi-regression analysis and the results of the analysis are summarized in the table below. 
