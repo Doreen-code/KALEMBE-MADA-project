@@ -25,8 +25,7 @@ library(knitr)
 
 * First Autor$^{1,2,*}$ (ORCID: 0000-0000-1234-5678) 
 * Second Author$^{3, *}$
-* Third Autor$^{3, \dagger}$
-* Last Author$^{1, 2, \land}$ 
+
 
 **Author affiliations**  
 
@@ -117,12 +116,12 @@ These are some of our Expected Outcomes.
 Tuberculosis (TB) remains a significant global public health challenge. According to the World Health Organization (WHO), reports show that  10 million new cases and 1.4 million deaths in 2023 [@Santos2007] were as a result of Tuberculosis. The spread of M. tuberculosis, as the pathogen of TB, has long been hypothesized to occur more often in the household than in the community[@Martinez2017]. While most of the M.Tuberculosis  transmission in the community is attributed to the unknown contact networks that occurs between individuals, this accounts upto 90% of the transmission. The recent outbreak of Tuberculosis in the united states clearly explains the contact network phenomena.
 Overall, TB accounts for one quarter of the annual deaths that happen worldwide. An estimated 10.0 million people fell ill with TB in 2018. Geographically, Southeast Asia ranked highest (44%), followed by Africa (24%) and the Western Pacific (18%), with lesser percentages in the Eastern Mediterranean (8%), the Americas (3%), and Europe (3%). Among women of reproductive years, TB is the largest cause of death [@Dye1998]. Global Strategies made by WHO, aim at ending the TB epidemic, with targets to reduce the number of deaths caused by TB  by 95% and to decrease new cases by 90% from 2015 to 2035[@Murgia2024]. 
 
-Mycobacterium tuberculosis infection is acquired mostly through sharing air space with an individual who has active tuberculosis and inhaling droplet aerosols produced by that person. Since this bacterium is transmitted via the respiratory route to susceptible individuals in the community, the household of an infectious person is an environment for intense transmission of M. tuberculosis where most new cases of infection and diseases might be detected and treated. 
-According some reports,they suggest that there are differences in the  responses to tuberculosis between men and women. These reports highlight greater barrier to early detection and treatment of tuberculosis to be greater for women than men. 
+Mycobacterium tuberculosis infection primarily spreads when a person shares airspace with someone who has active tuberculosis and inhales infectious droplet aerosols. Since the bacterium transmits through respiratory routes to susceptible individuals, the household of an infected person becomes a critical environment for intense M. tuberculosis transmission, where most new infections and cases can be detected and treated.
+Research reports indicate significant differences in tuberculosis responses between men and women. Notably, these studies suggest that women face greater barriers to early detection and treatment of tuberculosis compared to men, potentially impacting disease outcomes and progression.
 
-The World Health Organisations, among others, attributed to the differences in the tuberculosis trends between men and women to access to care and treatment, pregnancy effects and gender rules that diminish the social capital of women hence lowering incidence among them[@CCWhalen2023]. Not forgetting that biological mechanisms might influence these differences,  previous studies show that men have a higher incidence and prevalence of disease and this might lead to bad treatment outcomes as compared to women. 
+The World Health Organisations, among others, attributed to the differences in the tuberculosis trends between men and women to access to care and treatment, pregnancy effects,body fat mass and gender rules that diminish the social capital of women hence lowering incidence among them[@CCWhalen2023]. Not forgetting that biological mechanisms might influence these differences,  previous studies show that men have a higher incidence and prevalence of disease and this might lead to bad treatment outcomes as compared to women. 
 
-Since the balance of fat and lean tissue differ in men and women especially at the time of presentation, the objective of this study will be to find out whether the more immune activation there is, the more infected / sicker is the person.
+Body fat plays an important role in supporting immune function, and women typically maintain higher fat storage than men. This increased fat storage may contribute to women's stronger immune responses. Since the balance of fat and lean tissue differs significantly between men and women, particularly at the time of disease presentation, the objective of this study is to determine whether higher immune activation correlates with greater infection severity or illness.
 
 ## Description of data and data source
 The data we used for this project was got from the TRAC dataverse and is fully accessible to everyone. This is considered a safe place where the the Tuberculosis data from the TRAc project is kept and can be used by anyone who wants contribute to TB research. More details about the data can be found [here]!(https://dataverse.unc.edu/dataset.xhtml?persistentId=doi:10.15139/S3/AYOFEU). The data is publicaly available and can be accessed by anyone.
@@ -138,9 +137,13 @@ Since the balance of fat and lean tissue differ in men and women especially at t
 # Methods 
 Study Design
 
-This study utilized a cohort design analyzing data from 2021. We included all patients that were 15 years and older. The candidate must have had TB as their first episode, not on any hormonal therapy and does not take any hormonal birth control. The participant was not supposed to have diabetes melitus, cancer or HIV.Similarly,the exclusion criteria applied. All participants that were below the age of 15, reported TB as their second episode, took any form of hormanl therapy or biirth control , had diabetes melitus, cancer or HIV were excluded from the study. 
+This study utilized a cross sectional study design analyzing data from 2017.Sixty TB-confirmed participants (30 males, 30 females, aged 15+) were recruited from Mulago Hospital. 
 
-The variables of interest were extracted from the TRAC dataset  and exported to an MS Excel sheet. The outcome variable was CD4+ immune activatin counts.  The primary independent variable was sex (cis-gender) and this was categorized as male and female. The covariates were age at diagnosis,BMI, Fat in Kg, lean body mass in kg(LBM in kg), CD4+ and CD4 immune activation counts.
+\textbf{inclusion and exclusion critera}
+
+Our study included patients aged 15 years and older who were experiencing their first episode of tuberculosis. To maintain data integrity, we excluded individuals who were receiving hormonal therapy or using hormonal contraceptives. Additionally, patients with comorbidities such as diabetes mellitus, cancer, or HIV were excluded from the study. Conversely, we applied strict exclusion criteria to ensure a focused research population: all individuals under 15 years of age, those with recurrent TB episodes, patients taking any form of hormonal therapy or contraception, and those diagnosed with diabetes mellitus, cancer, or HIV were not enrolled in the study. 
+
+The variables of interest were extracted from the TRAC dataset  and exported to an MS Excel sheet. The outcome variable was CD4+ immune activatin counts.  The primary independent variable was sex (cis-gender) and this was categorized as male and female. The covariates were age at diagnosis,BMI, Fat in Kg, lean body mass in kg(LBM in kg), CD4+ and CD4 immune activation counts. other variables  like fat mass index (FMI) and fat-free mass index (FFMI) were also obtained. 
 
 ## Schematic of workflow
 Chromosomal sex and hormones play a role in the modulation of immune responses to Mtb and thereby contribute to the general outcome of disease. The first cells that encounter Mtb are known as Macrophages. These initiate a local inflammatory reaction which may differ between the sexes[@Hertz2018]. This causes the long term containment of TB infection to differ between men and women since their adaptive immune responses are different.

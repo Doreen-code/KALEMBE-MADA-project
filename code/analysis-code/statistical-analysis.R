@@ -1,11 +1,15 @@
 #load packages
 #install.packages("table1")
-library("readxl")
-library("readr")
-library("dplyr")
-library("ggplot2")
-library("tidyverse")
-library("here")
+library(readxl)
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(tidyverse)
+library(here)
+library(table1)
+library(plotly)
+library(ggtext)
+library(broom)
 # load the data sets
 Immunology_lab_results <- read_excel("data/raw-data/Immunology lab results.xlsx")
 View(Immunology_lab_results)
@@ -18,7 +22,7 @@ View(GENDER_DEUTERIUM_DILUTION_DATA)
 #select variables in both the data sets and later merge them together.
 
 gender_data<-GENDER_DEUTERIUM_DILUTION_DATA%>%
-  select(`Participant ID`, Sex, `Participant age`,BMI, Dose,`Fat in kg`,`LBM in kg`,
+  dplyr::select(`Participant ID`, Sex, `Participant age`,BMI, Dose,`Fat in kg`,`LBM in kg`,
           `Fat %`, `LBM in %`)
          
 gender_data<-gender_data%>%
@@ -26,7 +30,7 @@ gender_data<-gender_data%>%
 
 #select variables you will need in the next data set
 immune_data<-Immunology_lab_results%>%
-  select(ID,`CD4+`, `CD4 Immune activation count`)
+  dplyr::select(ID,`CD4+`, `CD4 Immune activation count`)
 
 #we can now merge the two data sets int one.
 Tb_immune_data<-full_join(gender_data, immune_data,by = "ID")
@@ -179,18 +183,20 @@ ggplot(Final_data, aes(x = factor(Sex), y = `CD4 Immune activation count`, color
 ######making a table with sex as our exposure.
 #installing the required packages for the tables.
 # Load required packages
-install.packages("table1")  # Install if not already installed
-install.packages("gtsummary")
-library(table1)
-library(gtsummary)
-library(plotly)
-library(ggtext)
+#install.packages("table1")  # Install if not already installed
+#install.packages("gtsummary")
+
 #descriptive statistics table with Sex as the exposure:
 TABLE1<-table1(~ `CD4+`+`CD4 Immune activation count` + `Participant age` + `Fat in kg` 
        + `LBM in kg` | Sex, data = Final_data)
 TABLE1
 save_tabel1<- here::here("results","tables", "TABLE1.rds")
 saveRDS(TABLE1,file =save_tabel1 )
+
+
+#table version 2
+# ========= TABLE 1: Demographics and Clinical Characteristics by Sex =========
+
 
 
 # t-tests to compare means between sexes
@@ -281,8 +287,8 @@ summary(forward_model_interactions )
 #this means the interaction effects do not contribute to the model performance a
 #and hence there is no need of adding them.
 
-#from the above, we notice that adding very many predictors didnot necessarily 
-#improve the model. hence we ended up just maintaing the cd4 count and sex as 
+#from the above, we notice that adding very many predictors did not necessarily 
+#improve the model. hence we ended up just maintain the cd4 count and sex as 
 #our main predictors.
 model_summary3 <- summary(forward_model)
 model_table3 <- as.data.frame(model_summary3$coefficients)
