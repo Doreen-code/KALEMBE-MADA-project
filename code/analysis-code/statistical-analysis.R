@@ -64,7 +64,6 @@ Final_data <- data %>%
   ))
 
 
-
 ##eXPLORATION OF OUR DATA.
 #summary of the data
 summary(Final_data)
@@ -203,16 +202,7 @@ saveRDS(TABLE1,file =save_tabel1 )
 t.test(`CD4 Immune activation count` ~ Sex, data = Final_data)
 t.test(`Fat in kg`~ Sex, data = Final_data)
 
-#Final_data %>%
- # select(Sex,`CD4+`, `CD4 Immune activation count`, `Participant age`, 
-   #      `Fat in kg`, `LBM in kg`) %>%
-  #tbl_summary(by = Sex, 
-   ##           statistic = list(all_continuous() ~ "{mean} ({sd})"), 
-     #         missing = "no") %>%
-  #add_p() %>%
-  #modify_header(label = "**Variable**") %>%
-  #modify_spanning_header(c("stat_1", "stat_2") ~ "**Sex Groups**") 
-#bold_labels()
+
 
 #simple models with one predictor.
 #since sex is our major exposure of interst, we shall consider it first and then 
@@ -266,11 +256,13 @@ library(MASS) # we shall need this package to perform a step aic for model selec
 forward_model <- stepAIC(null_model, 
                       scope = list(lower = null_model, upper = model4),
                       direction = "forward")
+#we maintained the sex variable in the null model because it our main predictor and we dont
+#want to lose it.
 
 # View the summary of the selected model
 summary(forward_model)
 
-#what if i wanted to tale into account the interaction effects
+#what if i wanted to take into account the interaction effects
 # Define full model with interactions
 full_model_with_interactions <- lm(`CD4 Immune activation count` ~ 
                                      (relevel(factor(Sex), ref = "F") + 
@@ -298,4 +290,153 @@ knitr::kable(model_table3)
 
 save_table3<-here::here("results","tables", "model_table3.rds")
 saveRDS(model_table3,file =save_table3 )
+
+#lets try using the ml model_table1. load the necessary packages.
+library(glmnet)       # For LASSO regression
+library(ranger)
+library(recipes)
+library(tidymodels)  
+library(car)
+# . Set random seed for reproducibility
+set.seed(1234)
+rngseed <- 1234
+
+# Fix column names
+colnames(Final_data) <- make.names(colnames(Final_data))
+
+# Impute missing response if needed
+Final_data$CD4.Immune.activation.count[is.na(Final_data$CD4.Immune.activation.count)] <- 
+  median(Final_data$CD4.Immune.activation.count, na.rm = TRUE)
+
+#we have decided to impute them since this individual has other values that are
+#important in our annalysis.
+
+# Recipe
+model_recipe <- recipe(CD4.Immune.activation.count ~ ., data = Final_data) %>%
+  step_impute_mean(all_numeric_predictors()) %>%
+  step_impute_mode(all_nominal_predictors()) %>%
+  step_dummy(all_nominal_predictors()) %>%
+  step_corr(all_numeric_predictors(), threshold = 0.9) %>%
+  step_normalize(all_numeric_predictors())
+
+lasso_model <- linear_reg(penalty = tune(), mixture = 1) %>%
+  set_engine("glmnet")
+
+lasso_workflow <- workflow() %>%
+  add_model(lasso_model) %>%
+  add_recipe(model_recipe)
+
+# Penalty grid
+lasso_grid <- tibble(penalty = 10^seq(-5, 2, length.out = 50))
+
+# 5x5 CV
+cv_folds <- vfold_cv(Final_data, v = 5, repeats = 5)
+
+# Tune
+lasso_results <- tune_grid(
+  lasso_workflow,
+  resamples = cv_folds,
+  grid = lasso_grid,
+  metrics = metric_set(rmse)
+)
+
+# Best penalty
+best_lasso <- select_best(lasso_results, metric = "rmse")
+
+# Finalize and fit
+final_lasso <- finalize_workflow(lasso_workflow, best_lasso)
+final_lasso_fit <- fit(final_lasso, Final_data)
+
+# Coefficients
+lasso_coeffs <- tidy(final_lasso_fit)
+print(lasso_coeffs)
+
+#using random forest tuning and fitting
+rf_model <- rand_forest(
+  mtry = tune(),
+  min_n = tune(),
+  trees = 500
+) %>%
+  set_engine("ranger", importance = "impurity", seed = 1234) %>%
+  set_mode("regression")
+
+rf_workflow <- workflow() %>%
+  add_model(rf_model) %>%
+  add_recipe(model_recipe)
+
+rf_grid <- grid_regular(
+  mtry(range = c(1, 6)),
+  min_n(range = c(1, 20)),
+  levels = 5
+)
+
+rf_results <- tune_grid(
+  rf_workflow,
+  resamples = cv_folds,
+  grid = rf_grid,
+  metrics = metric_set(rmse)
+)
+
+# Best parameters
+best_rf <- select_best(rf_results, metric= "rmse")
+
+# Finalize and fit
+final_rf <- finalize_workflow(rf_workflow, best_rf)
+final_rf_fit <- fit(final_rf, Final_data)
+
+##we need to get the variable importance from the underlying fitted model
+
+rf_final_model <- extract_fit_parsnip(final_rf_fit)$fit
+importance_df <- data.frame(
+  Variable = names(rf_final_model$variable.importance),
+  Importance = rf_final_model$variable.importance
+)
+
+variable_plot<-ggplot(importance_df, aes(x = reorder(Variable, Importance), y = Importance)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  coord_flip() +
+  labs(title = "Variable Importance in Random Forest Model", 
+       x = "Predictor", 
+       y = "Importance Score")
+
+variable_plot
+
+ggsave(here("results", "figures", "Variable_plot.png"),
+       plot = variable_plot, width = 8, height = 4, dpi = 300)
+
+
+#Getting predictions from the random forests model and the lasso model to see
+#which one has better perfomance.
+# Make predictions
+lasso_preds <- predict(final_lasso_fit, new_data = Final_data) %>%
+  bind_cols(Final_data %>% dplyr::select(CD4.Immune.activation.count))
+
+rf_preds <- predict(final_rf_fit, new_data = Final_data) %>%
+  bind_cols(Final_data %>% dplyr::select(CD4.Immune.activation.count))
+
+# RMSE
+lasso_rmse <- rmse(lasso_preds, truth = CD4.Immune.activation.count, estimate = .pred)
+rf_rmse <- rmse(rf_preds, truth = CD4.Immune.activation.count, estimate = .pred)
+
+print(lasso_rmse)
+print(rf_rmse)
+
+#This shows that the random forests model is predicting better compared to 
+#the lasso model. It is capturing more data points than the lasso model.
+
+
+# Plotting the predicted over the observed.
+plot_obs_vs_pred <- function(data, title) {
+  ggplot(data, aes(x = CD4.Immune.activation.count, y = .pred)) +
+    geom_point(alpha = 0.5) +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "blue") +
+    labs(title = title, x = "Observed", y = "Predicted") +
+    theme_minimal()
+}
+library(patchwork)
+combined_plot <- plot_obs_vs_pred(lasso_preds, "LASSO") +
+  plot_obs_vs_pred(rf_preds, "Random Forest")
+combined_plot
+ggsave(here("results", "figures", "Predicted_vs_Observed.png"),
+       plot = combined_plot, width = 8, height = 4, dpi = 300)
 

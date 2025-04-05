@@ -51,14 +51,14 @@ TITLE: Sex-based analysis/Differences in TB Immune Activation.
 This project is aimed at looking at the differences in the Tuberculosis immune activation between males and females.( Sex-based analysis/Differences in TB Immune Activation
 Research Question)
 
-we shall use data from a tuberculosis public repository.
+#Methods
+
+We shall use data from a tuberculosis public repository.
 •	Data source: Tidyverse 
 https://dataverse.unc.edu/dataset.xhtml?persistentId=doi:10.15139/S3/AYOFEU
-with a Sample size of 60 individuals. The data includes 60 different individual that accepted to take part in the study.
+with a Sample size of 60 individuals. The study had 30 males and 30 females. All these participants were hiv negative and didnot have tuberculosis at the time of enrollment.
 
-The key variables that we shall look at are;
-
-
+The key exposure varibles are demographic and clinicalk. These include;
 Key variables: 
 - CD4 Immune activation count
 -	Disease severity indicators(Extent of lung disease andNumber of lungs involved)
@@ -66,6 +66,21 @@ Key variables:
 - Sex/Gender
 - BMI
 - Age of the participant 
+
+#Proposed Analysis Method.
+
+•	The annalysis was conducted in R version 4.4.2. This was done to Compare immune activation levels between males and females.
+
+ We computed the male-to-female differences in disease severity using cd4 immune activation counts.We correlated immune markers with disease severity measures/Correlation between activation levels and disease severity. We did this using linear regression and machine learning models to predict which sex will show the most results. We also adjusted for potential confounders like age.
+
+#Results
+
+
+#conclusions.
+Sex differences in TB is contributed by more than just hormonal influence. Our study shows that TB is more severe in men than it is in women. Regardless of the medical seeking behaviors of women, women tend to a have a high body fat percentage more than men.The higher the fat percentage an individual has, the lower the risk of progression of the tuberculosis infection to disease hence lowering mortality rates among females compared to men. In addition, women tend to have more lean body mass compared to men hence having a lower chance of suffering from adverse effects of TB compared to men.
+
+
+
 ```{r}
 #load packages
 library("readxl")
@@ -87,23 +102,6 @@ summary(data)
 ```
 
 
-Proposed Analysis Method.
-
-•	Compare immune activation levels between males and females
-
-•	Correlate immune markers with disease severity measures/Correlation between activation levels and disease severity
-
-•	Use linear regression to analyze relationships between variables
-
-•	Control for potential confounding factors
-
-These are some of our Expected Outcomes.
-
-•	Check and Identify any sex-based differences in immune response.
-
-•	Quantify the relationship between immune activation and disease severity.
-
-•	Propose any insights for sex-specific treatment approaches
 
 
 {{< pagebreak >}}
@@ -166,6 +164,9 @@ We imported the data from MS Excel to R. We explored the data and found some mis
 The final cleaned data set contains some negative fat values.
 Negative values occur when the deuterium dose has not had sufficient time to fully equilibrate with body water, or the dose was not completely consumed. This is seen as low deuterium enrichment, resulting in an overestimation of the size of the body water pool and hence high FFM (FFMI = LBM / height2)and low % body fat.
 
+We applied three supervised machine learning models — linear regression, LASSO regression, and Random Forests — to predict CD4 Immune Activation Count based on Sex, Age, BMI, Lean Body Mass (LBM), Fat mass, and CD4+ cell count. Data preprocessing included median imputation for missing values, dummy encoding of categorical variables, normalization, and removal of highly correlated features. Models were evaluated using RMSE and visualized through observed vs. predicted plots. Hyperparameter tuning was performed using grid search with cross-validation.
+
+The significance of Sex as a predictor of immune activation was assessed in each model. For linear models, coefficients for Sex were examined along with their corresponding p-values. The Random Forest model’s variable importance was assessed to identify the predictive contribution of Sex.
 
 {{< pagebreak >}}
 
@@ -189,7 +190,7 @@ knitr::kable(resulttable)
 
 
 ## Basic statistical analysis
-We used simple linear model to inspect whether there was an association between our main outcome CD4 immune activation count and the the primary predictor sex. To improve the model, we added in other predictors that could influence the immune activation count by performing a multi-variant linear regression anlaysis. This was done make sure we minimize confounding.
+We used simple linear model to inspect whether there was an association between our main outcome CD4 immune activation count and the the primary predictor sex. To improve the model, we added in other predictors that could influence the immune activation count by performing a multi-variant linear regression anlaysis. 
 
 @fig1-result shows a scatter plot of lean body mass in kg and CD4
 
@@ -235,20 +236,15 @@ This @tbl-model_table2 shows a summary of a  multi-variant linear regression mod
 model_table2= readRDS(here("results","tables","model_table2.rds"))
 knitr::kable(model_table2)
 ```
+We finally considered using ML algorithm to fit our data. The Random Forest model achieved the lowest RMSE (1132), outperforming both the linear regression and LASSO models, which had RMSEs around 2107. This figure @Predicted_vs_observed shows a comparison of observed vs. predicted values for each model.
 
-We went throught the steps of model building. First, we tested the null model which comprised of our main outcome and sex as the predictor. We did a stepwise selection using a foward direction approach with a our full model with all the interaction effects. We found that adding the interaction terms did not improve the model performance. We then considered the null model in comparison with the full model but this time round without interaction effects but all the predictors. Using the same procedure of stepwise selection using the foward direction chose the a simple linear model with just cd4+ as the only additional predictor.
-We performed a simple linear regression on the data between the CD4 immune activation count as the main outcome and sex plus cd4+ as predictors. We considered females  to be our reference level.
-
-This @tbl-model_table3 shows a summary of a  final linear model fit.
 ```{r}
-#| label: tbl-model_table3
-#| tbl-cap: "Linear model fit table 3."
+#| label: model-1
+#| fig-cap: "predicted vs observed of three models"
 #| echo: FALSE
-model_table3 = readRDS(here("results","tables","model_table3.rds"))
-knitr::kable(model_table3)
+knitr::include_graphics(here("results","figures","predVSobs.png"))
 ```
-
-
+LASSO did not substantially improve performance over linear regression, likely due to a weak regularization effect at the selected penalty. Variable importance from the Random Forest model identified BMI, participants age,lean body mass,CD4+ and sex, with Sex emerging as a minor contributor to CD4 Immune Activation count levels.
 
 {{< pagebreak >}}
 
@@ -270,8 +266,13 @@ _What are the main take-home messages?_
 
 _Include citations in your Rmd file using bibtex, the list of references will automatically be placed at the end_
 
+•	Check and Identify any sex-based differences in immune response.
 
+•	Quantify the relationship between immune activation and disease severity.
 
+•	Propose any insights for sex-specific treatment approaches
+
+Despite limitations of the present study, this study suggests that the body regains weight among wasted tuberculosis patients. Patients with wasting do not recover to the same levels of body mass as those who were not wasted. This suggests that tuberculosis leads to permanent loss of lean tissue and fat mass. There was remarkable gender but not HIV differences in longitudinal body composition changes during the initial phase of tuberculosis treatment among patients who presented with body wasting. The substantial body composition differences between men and women suggest that the nutritional demands during recovery may differ for men and women. Evaluation of nutritional status should involve evaluation of lean tissue and fat mass and further studies should explore the impact of providing nutritional interventions as adjuvant treatment on body composition among tuberculosis patients during and after treatment in sub-Saharan Africa.
 {{< pagebreak >}}
 
 # References
