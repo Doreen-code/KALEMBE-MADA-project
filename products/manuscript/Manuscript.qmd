@@ -242,7 +242,7 @@ We finally considered using ML algorithm to fit our data. The Random Forest mode
 #| label: model-1
 #| fig-cap: "predicted vs observed of three models"
 #| echo: FALSE
-knitr::include_graphics(here("results","figures","predVSobs.png"))
+knitr::include_graphics(here("results","figures","Predicted_vs_observed.png"))
 ```
 LASSO did not substantially improve performance over linear regression, likely due to a weak regularization effect at the selected penalty. Variable importance from the Random Forest model identified BMI, participants age,lean body mass,CD4+ and sex, with Sex emerging as a minor contributor to CD4 Immune Activation count levels.
 
