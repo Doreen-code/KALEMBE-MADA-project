@@ -308,6 +308,8 @@ colnames(Final_data) <- make.names(colnames(Final_data))
 Final_data$CD4.Immune.activation.count[is.na(Final_data$CD4.Immune.activation.count)] <- 
   median(Final_data$CD4.Immune.activation.count, na.rm = TRUE)
 
+Final_data <- Final_data %>% dplyr::select(-ID)
+
 #we have decided to impute them since this individual has other values that are
 #important in our annalysis.
 
