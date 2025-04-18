@@ -214,10 +214,12 @@ model2 <- lm(`CD4+` ~ relevel(factor(Sex), ref = "M"), data = Final_data)
 summary(model2)
 
 #Using cd4 immune activation count .
-model3 <- lm(`CD4 Immune activation count` ~ relevel(factor(Sex), ref = "F"), data = Final_data)
+model3 <- lm(`CD4 Immune activation count` ~ relevel(factor(Sex), ref = "F") + 
+               BMI + `LBM in kg`  , data = Final_data)
 
 model_summary <- summary(model3)
 model_summary
+confint(model3)
 model_table1 <- as.data.frame(model_summary$coefficients)
 knitr::kable(model_table1)
 

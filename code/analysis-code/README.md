@@ -6,3 +6,5 @@ This folder contains all the code of the final project. Eveything from data clea
 The codes have all been well documented with what we are doing from the cleaning process to  when we built the model.
 
 Model building and evaluation was done and decisions of which model to use was done based on what the foward selection criteria suggested. We also included the sex variable in the null model since it was being eliminated during model building and yet it is our primary predictor variable. For us to maintain it in our final model, we decided to include it in our null model. 
+
+our final annalysis was done using the machine learning models specifically the random forest and the Lasso regression analysis.

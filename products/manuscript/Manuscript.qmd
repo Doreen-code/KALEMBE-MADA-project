@@ -48,32 +48,38 @@ author's own and don't reflect their employer.
 
 TITLE: Sex-based analysis/Differences in TB Immune Activation.
 
-This project is aimed at looking at the differences in the Tuberculosis immune activation between males and females.( Sex-based analysis/Differences in TB Immune Activation
-Research Question)
+Tuberculosis is one of the leading causes of death in the world.According to NIH reports, tuberculosis (TB), afflicts more human males than females, with a ratio of 1.7 males to female. The disease is still endemic in most of the sub-Saharan African countries. In Uganda, for every one case of tuberculosis reported, there are at least three cases of tuberculosis that are not identified and its because of these cases that the disease remains prevalent in the country. Previous studies show that there are differences in the immune activation of TB among men and women. In this study, we aim to explore possible underlying hormonal and genetic mechanisms that might contribute to differences in the immune activation among females and males.
 
 #Methods
+We utilized data from a tuberculosis public repository available through Tidyverse (https://dataverse.unc.edu/dataset.xhtml?persistentId=doi:10.15139/S3/AYOFEU). The dataset comprises 60 individuals - 30 males and 30 females. All participants were HIV-negative and tuberculosis-free at the time of enrollment.
 
-We shall use data from a tuberculosis public repository.
-•	Data source: Tidyverse 
-https://dataverse.unc.edu/dataset.xhtml?persistentId=doi:10.15139/S3/AYOFEU
-with a Sample size of 60 individuals. The study had 30 males and 30 females. All these participants were hiv negative and didnot have tuberculosis at the time of enrollment.
+The key variables in our analysis include:
 
-The key exposure varibles are demographic and clinicalk. These include;
-Key variables: 
-- CD4 Immune activation count
--	Disease severity indicators(Extent of lung disease andNumber of lungs involved)
--Fat in kgs
-- Sex/Gender
-- BMI
-- Age of the participant 
+CD4 immune activation count
+Disease severity indicators (extent of lung disease and number of lungs involved)
+Fat in kilograms
+Sex/Gender
+BMI
+Age of participant
+These demographic and clinical variables form the foundation of our investigation into tuberculosis-related immune responses.
 
 #Proposed Analysis Method.
 
-•	The annalysis was conducted in R version 4.4.2. This was done to Compare immune activation levels between males and females.
+The annalysis was conducted in R version 4.4.2. This was done to Compare immune activation levels between males and females.
 
- We computed the male-to-female differences in disease severity using cd4 immune activation counts.We correlated immune markers with disease severity measures/Correlation between activation levels and disease severity. We did this using linear regression and machine learning models to predict which sex will show the most results. We also adjusted for potential confounders like age.
+We computed the male-to-female differences in disease severity using cd4 immune activation counts.We correlated immune markers with disease severity measures/Correlation between activation levels and disease severity. We did this using linear regression and machine learning models to predict which sex will show the most results. We also adjusted for potential confounders like age.
 
 #Results
+# Results
+
+Our analysis revealed a statistically significant difference in CD4 immune activation counts between males and females. On average, females showed lower CD4 activation counts than males (mean difference = 413) indicating less immune activation in females and a true difference in the body fat between females and males (mean difference = 17.76 95%CI (7.097298 29.972199).
+
+Linear regression models adjusted for age, BMI, and fat mass demonstrated that male sex was independently associated with higher CD4 immune activation (β =  692.58 95% CI = [-786.97, 2172.13]).
+
+Disease severity indicators were more strongly associated with immune activation in males than in females, suggesting a sex-based difference in how immune response relates to disease burden.
+
+The LASSO and Random Forest models identified BMI, sex, CD4+, LBM  as the most important predictors of immune activation. These findings support the hypothesis that sex-based physiological differences, particularly in fat composition, contribute to variability in immune activation and disease severity in tuberculosis.
+
 
 
 #conclusions.
@@ -98,7 +104,7 @@ data_location <- here::here("data","processed-data","Tb_immune_data.rds")
 data<- read_rds(data_location)
 
 #summary of the data
-summary(data)
+#summary(data)
 ```
 
 
@@ -117,9 +123,9 @@ Overall, TB accounts for one quarter of the annual deaths that happen worldwide.
 Mycobacterium tuberculosis infection primarily spreads when a person shares airspace with someone who has active tuberculosis and inhales infectious droplet aerosols. Since the bacterium transmits through respiratory routes to susceptible individuals, the household of an infected person becomes a critical environment for intense M. tuberculosis transmission, where most new infections and cases can be detected and treated.
 Research reports indicate significant differences in tuberculosis responses between men and women. Notably, these studies suggest that women face greater barriers to early detection and treatment of tuberculosis compared to men, potentially impacting disease outcomes and progression.
 
-The World Health Organisations, among others, attributed to the differences in the tuberculosis trends between men and women to access to care and treatment, pregnancy effects,body fat mass and gender rules that diminish the social capital of women hence lowering incidence among them[@CCWhalen2023]. Not forgetting that biological mechanisms might influence these differences,  previous studies show that men have a higher incidence and prevalence of disease and this might lead to bad treatment outcomes as compared to women. 
+The World Health Organization, among other institutions, attributes differences in tuberculosis trends between men and women to several factors: access to care and treatment, pregnancy effects, body fat mass, and gender roles that diminish women's social capital, thereby lowering incidence among them [@CCWhalen2023]. Worldwide, epidemiological data indicate that tuberculosis (TB) rates among HIV-negative men have consistently been higher than among women for many decades [@Horton2016]. While biological mechanisms likely influence these differences, previous studies demonstrate that men experience higher incidence and prevalence of disease, potentially leading to poorer treatment outcomes compared to women. According to an analysis conducted in 2000, TB prevalence among males exceeded that among females in 27 (93%) of 29 prevalence surveys conducted across 14 countries between 1953 and 1997 [@Horton2016].
 
-Body fat plays an important role in supporting immune function, and women typically maintain higher fat storage than men. This increased fat storage may contribute to women's stronger immune responses. Since the balance of fat and lean tissue differs significantly between men and women, particularly at the time of disease presentation, the objective of this study is to determine whether higher immune activation correlates with greater infection severity or illness.
+Other studies have highlighted that body fat plays an important role in supporting immune function, with women typically maintaining higher fat storage than men. This increased fat storage may contribute to women's stronger immune responses. While these differences are partly attributed to women's better healthcare-seeking behaviors, factors such as fat distribution, hormonal profiles, body composition, lean tissue mass, and other biological characteristics differ significantly between sexes, particularly at disease presentation. The objective of this study is to determine whether higher immune activation counts correlate with greater infection severity or illness progression.
 
 ## Description of data and data source
 The data we used for this project was got from the TRAC dataverse and is fully accessible to everyone. This is considered a safe place where the the Tuberculosis data from the TRAc project is kept and can be used by anyone who wants contribute to TB research. More details about the data can be found [here]!(https://dataverse.unc.edu/dataset.xhtml?persistentId=doi:10.15139/S3/AYOFEU). The data is publicaly available and can be accessed by anyone.
@@ -144,7 +150,7 @@ Our study included patients aged 15 years and older who were experiencing their 
 The variables of interest were extracted from the TRAC dataset  and exported to an MS Excel sheet. The outcome variable was CD4+ immune activatin counts.  The primary independent variable was sex (cis-gender) and this was categorized as male and female. The covariates were age at diagnosis,BMI, Fat in Kg, lean body mass in kg(LBM in kg), CD4+ and CD4 immune activation counts. other variables  like fat mass index (FMI) and fat-free mass index (FFMI) were also obtained. 
 
 ## Schematic of workflow
-Chromosomal sex and hormones play a role in the modulation of immune responses to Mtb and thereby contribute to the general outcome of disease. The first cells that encounter Mtb are known as Macrophages. These initiate a local inflammatory reaction which may differ between the sexes[@Hertz2018]. This causes the long term containment of TB infection to differ between men and women since their adaptive immune responses are different.
+Chromosomal sex and hormones play a role in the modulation of immune responses to mTB and thereby contribute to the general outcome of disease. The first cells that encounter Mtb are known as Macrophages. These initiate a local inflammatory reaction which may differ between the sexes[@Hertz2018]. This causes the long term containment of TB infection to differ between men and women since their adaptive immune responses are different.
  @tbfig-1
 
 
@@ -175,48 +181,26 @@ The significance of Sex as a predictor of immune activation was assessed in each
 
 ## Exploratory/Descriptive analysis
 
-We explored the data and using figures and summary tables. We used box plots, histograms and and correlation plots to see whether we can find something interesting in the data. Scatter plots were used to see the trends in the data and also see whether there are some interesting relationships between the continuous variables in the data. 
+We conducted a thorough data exploration using various visualization techniques and summary tables. Our analysis included box plots, histograms, and correlation plots to identify meaningful patterns in the dataset. We employed scatter plots to examine trends and investigate potential relationships between continuous variables. This comprehensive approach allowed us to uncover several interesting insights within the data.
 
-@tbl-TABLE1 shows a summary of the data
-
+@Table1 shows the summary statistics of our data variables.
 ```{r}
-#| label: tbl-TABLE1
-#| tbl-cap: "Data descriptive summary table."
+# Load the table
+#table1 <- readRDS(here::here("results", "tables", "TABLE1.rds"))
+#| label: table-Table1
+#| tbl-cap: "Summary distribution of baseline characteristics among males and females."
 #| echo: FALSE
-resulttable=readRDS("../../results/tables/TABLE1.rds")
-knitr::kable(resulttable)
-```
 
+# Display the table (use knitr::kable, gt, or another display function)
+knitr::kable(table1)
+
+```
 
 ## Basic statistical analysis
-We used simple linear model to inspect whether there was an association between our main outcome CD4 immune activation count and the the primary predictor sex. To improve the model, we added in other predictors that could influence the immune activation count by performing a multi-variant linear regression anlaysis. 
 
-@fig1-result shows a scatter plot of lean body mass in kg and CD4
+We employed a simple linear model to investigate the potential association between our primary outcome, CD4 immune activation count, and our main predictor variable, sex. To enhance the model's explanatory power, we incorporated additional predictors that might influence immune activation counts through multivariate linear regression analysis.
 
-```{r}
-#| label: fig1-result
-#| fig-cap: "Scatter plot of CD4+ cells versus LBM in kg."
-#| echo: FALSE
-knitr::include_graphics(here("results","figures","scatterplot1.png"))
-```
-
-@fig2-result shows a scatter plot of CD4 vs Fat in kg.
-```{r}
-#| label: fig2-result
-#| fig-cap: "Scatter plot of CD4+ cells versus Fat in kg."
-#| echo: FALSE
-knitr::include_graphics(here("results","figures","scatterplot2.png"))
-```
-
-@plot1-result a boxplot of the cd4 immune activation count by sex.
-```{r}
-#| label: plot1-result
-#| fig-cap: "Box plot to show the distribution of cd4 count immune activation counts among males and females."
-#| echo: FALSE
-knitr::include_graphics(here("results","figures","boxplot1.png"))
-```
-
-@plot2-result a boxplot to show the distributions of fat in kilograms among males females.
+Given that fat content serves as a contributing factor to immune activation in disease progression, individuals with higher fat percentages typically demonstrate reduced susceptibility to tuberculosis, and vice versa. We analyzed the distribution of fat composition between men and women. Figure @plot2-result presents a boxplot illustrating the distribution of fat in kilograms across male and female participants.
 ```{r}
 #| label: plot2-result
 #| fig-cap: "Box plot showing Fat in kg among males and females."
@@ -227,14 +211,6 @@ knitr::include_graphics(here("results","figures","boxplot2.png"))
 ## Full analysis
 In order to take care of confounding, we performed a multi-regression analysis and the results of the analysis are summarized in the table below. 
 
-This @tbl-model_table2 shows a summary of a  multi-variant linear regression model fit.
-```{r}
-#| label: tbl-model_table2
-#| tbl-cap: "Linear model summary table 2."
-#| echo: FALSE
-model_table2= readRDS(here("results","tables","model_table2.rds"))
-knitr::kable(model_table2)
-```
 We finally considered using ML algorithm to fit our data. The Random Forest model achieved the lowest RMSE (1132), outperforming both the linear regression and LASSO models, which had RMSEs around 2107. This figure @Predicted_vs_observed shows a comparison of observed vs. predicted values for each model. 
 
 This figure @Variable_plot shows the variable importance plot from the random forest model. This highlights  the most influential predictors of CD4 immune activation. BMI, participants age, CD4+, Lean body mass(LBM) and Sex emerged as the most important features, indicating they contributed most to the model's predictive accuracy. This suggests that body composition and biological sex may play a key role in immune activation patterns. 
@@ -246,6 +222,8 @@ This figure @Variable_plot shows the variable importance plot from the random fo
 knitr::include_graphics(here("results","figures","Predicted_vs_observed.png"))
 ```
 
+
+
 ```{r}
 #| label: Forests-model
 #| fig-cap: "Variable plot from the random forests model."
@@ -253,7 +231,7 @@ knitr::include_graphics(here("results","figures","Predicted_vs_observed.png"))
 knitr::include_graphics(here("results","figures","Variable_plot.png"))
 ```
 
-We applied LASSO regression to identify preredictors of CD4 immune activation. After removing the participant ID variable, the model retained BMI (estimate = -297), CD4+ count (estimate = 514), sex (male) (estimate = 260), and lean body mass (estimate = -22.7) as non-zero coefficients. Participant age was excluded from the final model.
+We applied LASSO regression to identify predictors of CD4 immune activation. After removing the participant ID variable, the model retained BMI (estimate = -297), CD4+ count (estimate = 514), sex (male) (estimate = 260), and lean body mass (estimate = -22.7) as non-zero coefficients. Participant age was excluded from the final model.
 
 Interestingly, LBM (Lean Body Mass) and Participant Age were ranked lower, suggesting they had less influence in this dataset. These findings align with the Random forest results, which also retained BMI,CD4+ lean body mass and sex as key predictors.
 
