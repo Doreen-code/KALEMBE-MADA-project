@@ -86,30 +86,6 @@ The LASSO and Random Forest models identified BMI, sex, CD4+, LBM  as the most i
 Sex differences in TB is contributed by more than just hormonal influence. Our study shows that TB is more severe in men than it is in women. Regardless of the medical seeking behaviors of women, women tend to a have a high body fat percentage more than men.The higher the fat percentage an individual has, the lower the risk of progression of the tuberculosis infection to disease hence lowering mortality rates among females compared to men. In addition, women tend to have more lean body mass compared to men hence having a lower chance of suffering from adverse effects of TB compared to men.
 
 
-
-```{r}
-#load packages
-library("readxl")
-library("readr")
-library("dplyr")
-library("ggplot2")
-library("tidyverse")
-library("here")
-
-# follow through with the code folder to see the #variables in the data and how i selected the #variables make this data set. 
-#location of the data
-data_location <- here::here("data","processed-data","Tb_immune_data.rds")
-
-#loading the data
-data<- read_rds(data_location)
-
-#summary of the data
-#summary(data)
-```
-
-
-
-
 {{< pagebreak >}}
 
 
@@ -128,7 +104,7 @@ The World Health Organization, among other institutions, attributes differences 
 Other studies have highlighted that body fat plays an important role in supporting immune function, with women typically maintaining higher fat storage than men. This increased fat storage may contribute to women's stronger immune responses. While these differences are partly attributed to women's better healthcare-seeking behaviors, factors such as fat distribution, hormonal profiles, body composition, lean tissue mass, and other biological characteristics differ significantly between sexes, particularly at disease presentation. The objective of this study is to determine whether higher immune activation counts correlate with greater infection severity or illness progression.
 
 ## Description of data and data source
-The data we used for this project was got from the TRAC dataverse and is fully accessible to everyone. This is considered a safe place where the the Tuberculosis data from the TRAc project is kept and can be used by anyone who wants contribute to TB research. More details about the data can be found [here]!(https://dataverse.unc.edu/dataset.xhtml?persistentId=doi:10.15139/S3/AYOFEU). The data is publicaly available and can be accessed by anyone.
+The data we used for this project was got from the TRAC dataverse and is fully accessible to everyone. This is considered a safe place where the the Tuberculosis data from the TRAc project is kept and can be used by anyone who wants contribute to TB research. More details about the data can be found [here](https://dataverse.unc.edu/dataset.xhtml?persistentId=doi:10.15139/S3/AYOFEU). The data is publicly available and can be accessed by anyone.
 
 
 ## Questions/Hypotheses to be addressed
@@ -143,15 +119,14 @@ Study Design
 
 This study utilized a cross sectional study design analyzing data from 2017.Sixty TB-confirmed participants (30 males, 30 females, aged 15+) were recruited from Mulago Hospital. 
 
-\textbf{inclusion and exclusion critera}
+###inclusion and exclusion critera
 
-Our study included patients aged 15 years and older who were experiencing their first episode of tuberculosis. To maintain data integrity, we excluded individuals who were receiving hormonal therapy or using hormonal contraceptives. Additionally, patients with comorbidities such as diabetes mellitus, cancer, or HIV were excluded from the study. Conversely, we applied strict exclusion criteria to ensure a focused research population: all individuals under 15 years of age, those with recurrent TB episodes, patients taking any form of hormonal therapy or contraception, and those diagnosed with diabetes mellitus, cancer, or HIV were not enrolled in the study. 
+Our study included patients aged 15 years and older experiencing their first episode of tuberculosis. To maintain data integrity, we excluded individuals receiving hormonal therapy or using hormonal contraceptives. Additionally, patients with comorbidities including diabetes mellitus, cancer, or HIV were excluded. Our strict exclusion criteria ensured a focused research population by omitting all individuals under 15 years of age, those with recurrent TB episodes, patients taking any form of hormonal therapy or contraception, and those diagnosed with diabetes mellitus, cancer, or HIV. 
 
-The variables of interest were extracted from the TRAC dataset  and exported to an MS Excel sheet. The outcome variable was CD4+ immune activatin counts.  The primary independent variable was sex (cis-gender) and this was categorized as male and female. The covariates were age at diagnosis,BMI, Fat in Kg, lean body mass in kg(LBM in kg), CD4+ and CD4 immune activation counts. other variables  like fat mass index (FMI) and fat-free mass index (FFMI) were also obtained. 
+The variables of interest were extracted from the TRAC dataset  and exported to an MS Excel sheet. The outcome variable was CD4+ immune activation counts.  The primary independent variable was sex (cis-gender) and this was categorized as male and female. The covariates were age at diagnosis,BMI, Fat in Kg, lean body mass in kg(LBM in kg), CD4+ and CD4 immune activation counts. other variables  like fat mass index (FMI) and fat-free mass index (FFMI) were also obtained. 
 
 ## Schematic of workflow
-Chromosomal sex and hormones play a role in the modulation of immune responses to mTB and thereby contribute to the general outcome of disease. The first cells that encounter Mtb are known as Macrophages. These initiate a local inflammatory reaction which may differ between the sexes[@Hertz2018]. This causes the long term containment of TB infection to differ between men and women since their adaptive immune responses are different.
- @tbfig-1
+Chromosomal sex and hormones play a role in the modulation of immune responses to mTB and thereby contribute to the general outcome of disease. The first cells that encounter Mtb are known as Macrophages. These initiate a local inflammatory reaction which may differ between the sexes[@Hertz2018]. This causes the long term containment of TB infection to differ between men and women since their adaptive immune responses are different. See @tbfig-1
 
 
 ```{r}
@@ -185,22 +160,40 @@ We conducted a thorough data exploration using various visualization techniques 
 
 @Table1 shows the summary statistics of our data variables.
 ```{r}
-# Load the table
-#table1 <- readRDS(here::here("results", "tables", "TABLE1.rds"))
-#| label: table-Table1
+#| label: tbl-table1
 #| tbl-cap: "Summary distribution of baseline characteristics among males and females."
 #| echo: FALSE
+table1<-readRDS(here::here("results", "tables", "TABLE1.rds"))
+table1
 
-# Display the table (use knitr::kable, gt, or another display function)
-knitr::kable(table1)
+
 
 ```
+
+Table @tbl-correlation shows the correlation matrix between immune activation markers and body composition variables.
+
+```{r}
+#| label: tbl-correlation
+#| tbl-cap: "Correlation matrix between immune activation markers and body composition variables."
+#| echo: FALSE
+
+# Load the table
+cor_table <- readRDS(here::here("results", "tables", "TABLE2_Correlation.rds"))
+
+cor_table
+
+  
+
+
+```
+Table 2 presents the Pearson correlation coefficients between CD4 immune markers and body composition variables. CD4+ count showed a modest positive correlation with both CD4 immune activation count (r = 0.22) and fat mass (r = 0.17), and a negative correlation with lean body mass (r = –0.18). Notably, fat in kilograms was strongly negatively correlated with lean body mass (r = –0.94), indicating an inverse relationship between fat and lean tissue. Participant age showed very weak correlations with all variables, suggesting age may not substantially confound relationships between immune activation and body composition in this sample.
+
 
 ## Basic statistical analysis
 
 We employed a simple linear model to investigate the potential association between our primary outcome, CD4 immune activation count, and our main predictor variable, sex. To enhance the model's explanatory power, we incorporated additional predictors that might influence immune activation counts through multivariate linear regression analysis.
 
-Given that fat content serves as a contributing factor to immune activation in disease progression, individuals with higher fat percentages typically demonstrate reduced susceptibility to tuberculosis, and vice versa. We analyzed the distribution of fat composition between men and women. Figure @plot2-result presents a boxplot illustrating the distribution of fat in kilograms across male and female participants.
+Given that fat content serves as a contributing factor to immune activation in disease progression, individuals with higher fat percentages typically demonstrate reduced susceptibility to tuberculosis, and vice versa. We analyzed the distribution of fat composition between men and women. This @plot2-result presents a boxplot illustrating the distribution of fat in kilograms across male and female participants.
 ```{r}
 #| label: plot2-result
 #| fig-cap: "Box plot showing Fat in kg among males and females."
@@ -209,7 +202,7 @@ knitr::include_graphics(here("results","figures","boxplot2.png"))
 ```
 
 ## Full analysis
-In order to take care of confounding, we performed a multi-regression analysis and the results of the analysis are summarized in the table below. 
+In order to take care of confounding, we performed a multi-regression analysis and the results of the analysis were not satifactory. 
 
 We finally considered using ML algorithm to fit our data. The Random Forest model achieved the lowest RMSE (1132), outperforming both the linear regression and LASSO models, which had RMSEs around 2107. This figure @Predicted_vs_observed shows a comparison of observed vs. predicted values for each model. 
 

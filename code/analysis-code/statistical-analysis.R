@@ -10,6 +10,7 @@ library(table1)
 library(plotly)
 library(ggtext)
 library(broom)
+library(flextable)
 # load the data sets
 Immunology_lab_results <- read_excel("data/raw-data/Immunology lab results.xlsx")
 View(Immunology_lab_results)
@@ -102,6 +103,11 @@ print(cor_matrix)
 corrplot(cor_matrix, method="color", tl.cex=0.8)
 #We see that none of the variabls are correlated with each other.
 
+library(ggplot2)
+library(GGally)
+ggpairs(Final_data[, c("CD4+", "Fat in kg", "BMI", "Participant age")])
+
+
 #Scatter plots of numeric variables
 p1<-ggplot(Final_data, aes(x=`LBM in kg`
                  , y=`CD4+`)) + 
@@ -193,8 +199,31 @@ save_tabel1<- here::here("results","tables", "TABLE1.rds")
 saveRDS(TABLE1,file =save_tabel1 )
 
 
-#table version 2
-# ========= TABLE 1: Demographics and Clinical Characteristics by Sex =========
+
+#table version 2, correlation table
+# Load necessary packages
+
+library(gt)
+library(tibble)
+# Select numeric variables
+cor_data <- Final_data %>%
+  select(`CD4+`, `CD4 Immune activation count`, `Fat in kg`, `LBM in kg`, `Participant age`, BMI)
+
+# Compute correlation matrix
+cor_matrix <- round(cor(cor_data, use = "complete.obs"), 2)
+
+# Convert to a data frame and make it prettier
+cor_df <- as.data.frame(cor_matrix) %>%
+  rownames_to_column("Variable")
+
+# Format as a gt table
+cor_table <- gt(cor_df) %>%
+  tab_header(title = "Table 2: Correlation Matrix of Immune Activation and Body Composition")
+cor_table
+# Save as RDS for use in Quarto
+saveRDS(cor_table, file = here("results", "tables", "TABLE2_Correlation.rds"))
+
+
 
 
 
