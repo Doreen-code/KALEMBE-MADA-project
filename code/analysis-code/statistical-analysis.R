@@ -46,7 +46,7 @@ saveRDS(Tb_immune_data, file = save_data_location)
 #dropping the last observation from the dataset since the last observation
 #doesnt make sense to our annalysis 
 #loading the data
-data<- read_rds(data_location)
+data<- read_rds(save_data_location)
 
 # dropping the last observation in the dataset since it makes no sense
 # to our annalysis and also dropping the variable dose since we dont really need it.

@@ -1,5 +1,5 @@
 ---
-title: "Example Manuscript Template for a Data Analysis Project"
+title: "Sex-based analysis/Differences in TB Immune Activation"
 author: "Doreen Kibuule Kalembe"
 format:
   docx:
