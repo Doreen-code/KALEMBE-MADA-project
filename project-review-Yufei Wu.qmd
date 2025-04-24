@@ -1,0 +1,168 @@
+---
+title: Project Review_Yufei Wu
+author: Yufei Wu
+date: 04/23/2025
+format: 
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+---
+
+# Overview
+
+Title of project: Sex-based analysis/Differences in TB Immune Activation
+
+Name of project author(s): Doreen Kibuule Kalembe
+
+Name of project reviewer: Yufei Wu
+
+
+
+# Specific project content evaluation
+
+
+## Background, Context and Motivation
+
+### Feedback and Comments
+
+The background part provides a thorough overview of the TB burden and sex differences, including a summary of previous work. At the end of the introduction, it may be good to make a transition to the objective of this study by stating the what is still unknown and why this study addresses it. 
+
+### Summary assessment
+
+* strong contextualization and motivation
+
+
+## Question description
+
+
+### Feedback and Comments
+
+The question the project aims to address is clearly described.
+
+### Summary assessment
+
+* question/hypotheses fully clear
+
+
+## Data description
+
+### Feedback and Comments
+
+The data source is well provided. It would be better if the codebook were also provided.
+
+### Summary assessment
+
+* source and overall structure of data somewhat explained
+
+
+
+## Data wrangling and exploratory analysis
+
+### Feedback and Comments
+
+The data cleaning part looks good. For the exploratory analysis, it says that box plots, histograms, and correlation plots were included, but these are not shown in the manuscript or the supplementary information, just in the figure file. It’d be clearer if those plots were actually included in the manuscript or supplement. In addition, it would strengthen the analysis if more extensive EDA were conducted (if possible).
+
+### Summary assessment
+
+* some weaknesses in wrangling and exploratory component
+
+
+
+
+## Appropriateness of Analysis
+
+### Feedback and Comments
+
+Analysis methods are appropriate. It will be better to provide more cross-validation details, like the CV RMSE.
+
+### Summary assessment
+
+* strong and reasonable analysis
+
+## Presentation
+
+
+### Feedback and Comments
+
+The overall presentation is good. However, there' some room for improvement. Some figures are mentioned but not included (like the exploratory plots). It's better to remove the R warning consoles. In addition, the links to figures and tables are not working properly.
+
+### Summary assessment
+
+* results are presented ok, with room for improvement
+
+
+
+## Discussion/Conclusions
+
+### Feedback and Comments
+
+The discussion is detailed and includes proper interpretations of findings. Strengths and limitations are also discussed.
+
+### Summary assessment
+
+* strong, complete and clear discussion
+
+
+## Further comments
+
+The manuscript will be better if it is polished to be neater. Also, the spelling may be checked (like “annalysis” → analysis, “activatin” → activation). The title of the manuscript "Example Manuscript Template for a Data Analysis Project" should be replaced to the actual title.
+
+
+
+# Overall project content evaluation
+
+## Structure
+
+### Feedback and Comments
+
+The project is mostly well structured. However, there are some "junk" template pictures in the assets.
+
+### Summary assessment
+
+* mostly clear, but some confusing parts (e.g. useless files, things in the wrong folders)
+
+
+## Documentation 
+
+### Feedback and Comments
+
+The project is well documented and I can understand the analysis.
+
+### Summary assessment
+
+* fully and well documented
+
+
+
+## Reproducibility
+
+### Feedback and Comments
+
+The results are mostly reproducible, but I did run into a minor issue. In the "statistical-analysis.R" file, line 48 reads data <- read_rds(data_location), but it seems like it should be save_data_location instead of data_location. I got an error when I first ran the analysis file on its own. However, if I ran the manuscript file first and then went back to the analysis script, it worked—likely because the data was already loaded from the manuscript file.
+
+
+### Summary assessment
+
+* small parts not reproducible or required manual intervention 
+
+
+## Thoroughness
+
+### Feedback and Comments
+
+Different models are considered and the hypothesis is addressed.
+
+### Summary assessment
+
+* strong level of thorougness
+
+
+## Further comments
+
+The overall project is complete and understandable. The manuscript file may need to be further polished to meet publication standard.
+
+
+
+
+
