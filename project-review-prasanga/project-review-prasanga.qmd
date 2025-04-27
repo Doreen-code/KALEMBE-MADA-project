@@ -1,0 +1,261 @@
+---
+title: Project Review Template 
+author: Prasanga Paudel
+date: April 23, 2025
+format: 
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+---
+
+# Overview
+
+Title of project: Sex-based analysis/Differences in TB Immune Activation
+
+Name of project author(s): Doreen Kibuule Kalembe
+
+Name of project reviewer: Prasanga Paudel
+
+
+
+
+# Specific project content evaluation
+We will evaluate the different parts of the project  in the sections below.
+
+
+## Background, Context and Motivation
+
+How well is the context of the project described?
+
+- There is a solid background section and it provides enough context of the project.
+
+Is a comprehensive background, including summary of previous/related work given?
+
+- Yes, they are very much related to the project.
+
+Is the project well placed into the context of existing work (including proper referencing of existing work)?
+
+- Yes, the references are impressive.
+
+Is it clear why the project was undertaken and what new information it hopes to provide?
+
+-  Yes, the information is provided but it could be more better if the the objectives and hypotheis are clearly listed.
+
+### Feedback and Comments
+
+The summary section of the manuscript has a lot of issues primarily related to the structure and contents. The overall content is very good, however, some warnings are popping up in the manuscript which should be fixed. The summary section also shows codes and outputs from R. The references are also not properly used. The hashtags in the Abstract section looks unprofessional.
+
+Overall the information is of very good quality but it needs final refinement.
+
+### Summary assessment 
+
+* strong contextualization and motivation
+
+
+## Question description
+How well and clear are the question(s)/hypotheses the project aims to address described?
+
+- somewhat inconsistent objectives and hypothesis
+
+Is it clear how the questions relate to the data?
+
+- yes, it is somewhat clear.
+
+
+### Feedback and Comments
+
+I think the objective of the research and hypothesis are quite differently mentioned. The objective is stated as "the objective of this study will be to find out whether there are differences in the Tuberculosis immune activation between males and females" but the hypothesis is set as "We shall hypothesize on the more immune activation there is, the more infected / sicker the person". So there's some confusion in what the primary goal of the project is.
+
+The author also mentioned in the introductory section that "The objective of this study is to determine whether higher immune activation counts correlate with greater infection severity or illness progression". I think there should be a clear objective and if there are multiple objectives, they should be listed in the objective section. 
+
+The data is not described in detail. There should be a brief description about what kinds of data can be expected in the dataset and about the time and location of the dataset of interest
+
+### Summary assessment
+
+* question/hypotheses somewhat explained
+
+
+## Data description
+
+How well is the data overall described? Is the source provided? Is a codebook or other meta-information available that makes it clear what the data is? 
+
+- The data source is provided but the variable description is missing. There is no codebook.
+
+### Feedback and Comments
+
+There are variables such as FMI, FFMI, Fat%, LBM, and TBW which require more explanation of what they stand for. A codebook would make things right. Variables should be describe well at the top or in a readme file.  Two datasets are merged at the beginning, and it would be more better if the reason for merging those datasets were clearly explained.
+
+### Summary assessment
+
+* source and overall structure of data somewhat explained
+
+
+## Data wrangling and exploratory analysis
+
+How well is the data cleaned/processed and explored?
+
+- The dataset looks quite clean in the original dataset, hence little requirement for cleaning the data makes sense. The author merged two dataset which is quite impressive and reflects their motivation. Data exploration is somewhat weak. There are a lot of variables in the dataset which went un-noticed. Few scatterplots have been created which look interesting but surprisingly they have not been included in the manuscript.
+
+Are all steps reasonable and well explained?
+
+- The steps looks reasonable but there should have been more tables and figures that explore the basic relationship among factors of interest. And, more descriptions.
+
+Are alternatives discussed and considered? Are meaningful exploratory results shown (e.g. in the supplementary materials)?
+
+- I could not find the supplementary materials. The codes do not create much figures other than those used in the manuscript and some scatterplots. I checked the figures folder but there are some unnecessary file related to weight and height distributions which I think should be removed. I could only see a table and a box-plot of male an female as EDA in the manuscript. The table has information on countries which I find to be very strange and unrelated.
+
+### Feedback and Comments
+
+The EDA section should include figures that could explain the relationship among various variables in the dataset. Figures such as scatterplot and correlation plot would provide a great insight into the data. The EDA should establish a story that could help us understand the analysis part of the project better. This is somewhat missing.
+
+### Summary assessment
+
+* major weaknesses in wrangling and exploratory component
+
+
+## Appropriateness of Analysis
+
+Were the analysis methods appropriate for the data? Was the analysis done properly?
+
+- The author does talk about various models: Linear regression, LASSO, and random Forest. The importance table from RF model is presented in the manuscript. But, I could not find the results from Linear regression and LASSO in the manuscript. There is a observed-predicted plot for LASSO and RF model but not for Linear Regression. The analysis seems to be done in detail but it's kind of messy and due to the lack of sections and sub-sections. 
+
+Were different components of the analysis (e.g. performance measure, variable selection, data pre-processing, model evaluation) done in the best way possible and explained well?
+
+- The above mentioned components are partly covered.
+
+### Feedback and Comments
+
+The author does talk about RMSE as a performance measure but it would be more better to compare the performance through a clear table or separately is a different subsection. The variables selection process should also be mentioned more clearly. There are a bunch of regression models and an attempt to control for confounder but the logic behind the model should also be mentioned and enough explanation should be provided for following a certain process.
+
+### Summary assessment
+
+* defensible but not optimal analysis 
+
+
+## Presentation
+How well are results presented? Are tables and figures easy to read and understand? Are the main figures/tables publication level quality? 
+
+- There is only one table and one figure in the manuscript and unfortunately both the table and figure references are not working. The table and figure are intuitive but the information obtained from figures and tables could be more helpful if more figures for more variables were used. I saw a descriptive analysis based on male and female in the analysis-code but suprisingly it was not included in the manuscript. Improvements can be done in this part of the project.
+
+### Feedback and Comments
+
+The presentation of the manuscript can be made better if few figures and tables are added in the manuscript. Currently, the "EDA" has a table and there's one figure under "Basic Statistical Analysis". EDA could talk more about how the responses under different interesting variables are distributed and BSA could talk about how different variables affect the target variable.
+
+### Summary assessment
+
+* results are presented ok, with room for improvement
+
+
+## Discussion/Conclusions
+
+Are the study findings properly discussed? Are strengths and limitations acknowledged? Are findings interpreted properly?
+
+- Yes the findings are properly discussed. The strengths and limitations are also clearly discussed. 
+
+### Feedback and Comments
+
+The Discussion section is well prepared. Findings from all three models can also be discussed in terms of performance and robustness in results.
+
+### Summary assessment
+
+* strong, complete and clear discussion
+
+
+## Further comments
+
+_In summary, both the code files and manuscript needs to be differentiated into distinct section to carry out different type of analysis. It would make the manuscript better. _
+
+
+
+# Overall project content evaluation
+Evaluate overall features of the project  by filling in the sections below.
+
+
+## Structure
+
+Is the project well structured?
+
+- not quite perfectly
+
+Are files in well labeled folders? Do files have reasonable names? Are all "junk" files not needed for analysis/reproduction removed?
+
+- Yes, files are in reasonable folders and with reasonable names.
+- There are still junk files totally unrelated to the project.
+
+ By just looking at files and folders, can you get an idea of how things fit together?
+ 
+- Somewhat yes.
+
+
+### Feedback and Comments
+
+- The title is not well placed.
+- The main headings of the manuscript are well structred. But, there should be different subsections for diffent models. For instance, different sections for different models.
+- There should be a section that compares the performance.
+
+
+### Summary assessment
+
+* mostly clear, but some confusing parts (e.g. useless files, things in the wrong folders)
+
+
+
+## Documentation 
+
+How well is the project documented? Are you able to understand each step of the whole analysis, each decision that was made, and each line of code? Is enough information provided as comments in code or as part of Rmd files? 
+
+- The analysis is somewhat not well structured. There should have been a clear sections for each model to discuss the results and performance in the codes as well. As the information is provided as comments it is very difficult to navigate through the codes. Chunks would have been more helpful in presenting the codes. Even without the chunks, there should be some spacing between codes that are different from eachothers.
+
+- All the code has been placed under the same 'statistical-analysis' file which is not a good idea. There should have been separate files for each purpose. The 'statistical-analysis.R' file creates the processsed-data and then saves it and then imports it again. This process just adds more codes into the file withput much help.
+
+### Feedback and Comments
+
+There should be a different code file for processing-code at least. EDA and analysis could be placed together if space and presented properly.
+
+### Summary assessment
+
+* decently documented with some gaps
+
+
+## Reproducibility
+
+Are all results fully reproducible? Is documentation provided which clearly explains how to reproduce things, and does it work without the need for any manual intervention? Are you able to re-run the whole analysis without having to do manual interventions/edits?
+
+- The codes are reproducible. But, I had to edit the analysis-codes as the original code did not run due to incorrect reference of a dataframe. The manuscript code ran without interventions.
+
+
+### Feedback and Comments
+
+The reproducibility of the project is quite good. Adding instruction in the readme file about how to go through the project might help. But, the author has done quite a good job at making the project reproducible.
+
+
+### Summary assessment
+
+* small parts not reproducible or required manual intervention 
+
+
+## Thoroughness
+
+How thorough was the overall study? Were alternatives (e.g. different ways of processing the data or different models) considered? Were alternatives discussed? Were the questions/hypotheses fully and thoroughly addressed?
+
+- The overall study was thorough but it could have been better. Alternatives were explored for the main models but the alternatives should have been formally compared through tables. The manuscript does not talk about cross-validation and train/test techniques were not used in the project which could have been very useful.
+
+
+### Feedback and Comments
+
+The authur should include a table that compares the model performances in the train dataset in general and the cross-validation datasets. It is already late to use the train/test technique as all the data has been already used, but if possible the author may get more data from the source itself. The alternative models should be thoroughly discussed based on the performance across different robustness procedures.
+
+### Summary assessment
+
+* decent level of thoroughness
+
+
+## Further comments
+
+_Most of the information obtained from the analysis section are important to the project and should be presented in the manuscript. This will make the project more detailed and increases it's credibility._
+
+
+
+
+
