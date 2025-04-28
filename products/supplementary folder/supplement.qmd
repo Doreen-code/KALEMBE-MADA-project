@@ -1,0 +1,37 @@
+This is just a detailed document of what I did at every stage of the analysis.
+
+Data cleaning.
+
+We merged two data sets. The study was conducted in uganda and the variables say blood sample were got and different variables were got for the same people. for the variables collected, two data sets were got out of them. Our study utilised variables from both sets of data sets. 
+
+After the merging process, we then selected the variables that would be ideal for the king of project we were working on and dropped the unnecessary ones at this point.
+
+Our final data set contained the following variables.
+
+1. sex: This was the sex of the individual. This was male and female.
+
+2. Participant Age: The age of the participant in years.
+
+3. BMI: The body mass index of a person.
+
+4. Fat in Kg. Measure of a participants body fat in kg and their corresponding percentages.
+
+5. LBM in kg:Measure of a participants Lean Body Mass (LBM)in kg and its corresponding percentage.  
+
+6. CD4+: The number of CD4+ count cells an individual has.
+
+
+Other abbreviations that may be important to note are,
+
+ FFM: This represent the fat mass index of an individual.
+
+ 
+ FFMI: This represents an individual's fat-free mass index
+
+
+
+
+
+
+
+

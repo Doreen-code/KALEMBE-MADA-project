@@ -78,34 +78,75 @@ table(Final_data$Sex) #There are 30 males and 30 females
 table(Final_data$Age_cat)
 
 ##VISUALIZING THE VARIABLES IN THE Final_data
-# creating a hists 
-hist(Final_data$`CD4 Immune activation count`, main="Histogram of CD4 Counts",
-     xlab="CD4 counts", col="blue") #histogram showing the cd4 counts
+# creating a histograms
 
-#CD4+
-ggplot(Final_data, aes(x=`CD4+`)) + geom_histogram(binwidth=10, fill="blue", 
-                                             color="black")
+hist1 <- ggplot(Final_data, aes(x = `CD4 Immune activation count`)) +
+  geom_histogram(fill = "blue", color = "black") +
+  labs(
+    title = "Histogram of CD4 Counts",
+    x = "CD4 counts",
+    y = "Frequency"
+  )
 
-#LBM IN KG
-ggplot(Final_data, aes(x=`LBM in kg`)) + geom_histogram(binwidth=10, fill="red", 
+hist1
+
+# Save the plot
+ggsave(filename = here("results", "figures", "histogram1.png"), plot = hist1)
+
+
+#Histogram of CD4+
+HISTCD4<-ggplot(Final_data, aes(x=`CD4+`)) + geom_histogram(binwidth=10, fill="blue", 
+                                          color="black")
+
+HISTCD4  
+
+
+# Save the plot
+ggsave(filename = here("results", "figures", "histogramCD4.png"), plot = HISTCD4)
+
+
+#HISTOGRAM OF LBM IN KG
+Hist3<-ggplot(Final_data, aes(x=`LBM in kg`)) + geom_histogram(binwidth=10, fill="red", 
                                              color="black")
-##sexDistributions
-ggplot(Final_data, aes(x=factor(Sex), y= `LBM in kg`)) +
+# Save the plot
+ggsave(filename = here("results", "figures", "histogram3.png"), plot = Hist3)
+
+
+
+##sex Distributions using boxplots
+
+sex_Bplot<- ggplot(Final_data, aes(x=factor(Sex), y= `LBM in kg`)) +
   geom_boxplot(fill="lightblue") +
   theme_minimal()
+sex_Bplot
+
+# Save the plot
+ggsave(filename = here("results", "figures", "Sex_boxplot1.png"), plot = sex_Bplot)
 
 ##checking for any correlations
-
+##we needed to check whether there are varibles that are strongly related to each
+#other.This will allow us to make a decision either to drop one of the variables
+#or decide with one to keep
+  
 library(corrplot)
 cor_matrix <- cor(Final_data[sapply(Final_data, is.numeric)], use="complete.obs")
 print(cor_matrix)
 
 corrplot(cor_matrix, method="color", tl.cex=0.8)
-#We see that none of the variabls are correlated with each other.
+#We see that none of the variables are correlated with each other. hence there are
+#no risks of multicollinearity in the variables.
+
+##we decided to check whether there are any relationships between these varaibles
+#that we were considerint to put in the linear model. That is to see if they are 
+#related.we decided to do a pairs plot for them.
 
 library(ggplot2)
 library(GGally)
-ggpairs(Final_data[, c("CD4+", "Fat in kg", "BMI", "Participant age")])
+cor_plot<-ggpairs(Final_data[, c("CD4+", "Fat in kg", "BMI", "Participant age")])
+
+cor_plot
+#saving this
+ggsave(filename = here("results", "figures", "Correlation_plot.png"), plot = cor_plot)
 
 
 #Scatter plots of numeric variables
@@ -177,11 +218,17 @@ model <- lm(`CD4 Immune activation count` ~ relevel(factor(Sex), ref = "M")+ `Pa
 summary(model)
 
 # Regression plot
-ggplot(Final_data, aes(x = factor(Sex), y = `CD4 Immune activation count`, color = factor(Sex))) +
+Regplot<-ggplot(Final_data, aes(x = factor(Sex), y = `CD4 Immune activation count`, color = factor(Sex))) +
   geom_jitter(width = 0.2, alpha = 0.6) +
   geom_smooth(method = "lm", se = FALSE) +
   labs(x = "Sex", y = "CD4 Count", title = "CD4 Count vs. Sex (Regression)") +
   theme_minimal()
+Regplot
+
+
+ggsave(here("results", "figures", "Sex_Regplot.png"), width = 6, height = 4, dpi = 96)
+
+
 
 
 ####TABLES
@@ -207,7 +254,7 @@ library(gt)
 library(tibble)
 # Select numeric variables
 cor_data <- Final_data %>%
-  select(`CD4+`, `CD4 Immune activation count`, `Fat in kg`, `LBM in kg`, `Participant age`, BMI)
+  dplyr::select(`CD4+`, `CD4 Immune activation count`, `Fat in kg`, `LBM in kg`, `Participant age`, BMI)
 
 # Compute correlation matrix
 cor_matrix <- round(cor(cor_data, use = "complete.obs"), 2)
@@ -234,17 +281,22 @@ t.test(`Fat in kg`~ Sex, data = Final_data)
 
 
 #simple models with one predictor.
-#since sex is our major exposure of interst, we shall consider it first and then 
-#see how our outcome performs with it. we shall first see how this goes.
+#since sex is our major exposure of interest, we shall consider it first and then 
+#see how our outcome performs with it.Then we can add in other varibles later
 model1 <- lm(`CD4+` ~ relevel(factor(Sex), ref = "F"), data = Final_data)
 summary(model1)
+
+#From the model summary, we see that only one predictor is not sufficient for the 
+#model to predict the dat well.
+
 #lets try it with the males as our reference group
 model2 <- lm(`CD4+` ~ relevel(factor(Sex), ref = "M"), data = Final_data)
 summary(model2)
 
-#Using cd4 immune activation count .
+#Using cd4 immune activation count as outcome and the rest as predictors .
+
 model3 <- lm(`CD4 Immune activation count` ~ relevel(factor(Sex), ref = "F") + 
-               BMI + `LBM in kg`  , data = Final_data)
+               BMI + `LBM in kg`+ `CD4+`  , data = Final_data)
 
 model_summary <- summary(model3)
 model_summary
@@ -256,7 +308,8 @@ knitr::kable(model_table1)
 save_table2<-here::here("results","tables", "model_table1.rds")
 saveRDS(model_table1,file =save_table2 )
 
-#lets try to improve the model and also control for confounders. 
+#lets try to improve the model and also control for confounders by adding in more
+#variables  like the participant age to see whether the model will improve. 
 
 
 model4 <- lm(`CD4 Immune activation count`~ relevel(factor(Sex), ref = "F") +
@@ -310,20 +363,11 @@ summary(forward_model_interactions )
 #this means the interaction effects do not contribute to the model performance a
 #and hence there is no need of adding them.
 
-#from the above, we notice that adding very many predictors did not necessarily 
-#improve the model. hence we ended up just maintain the cd4 count and sex as 
-#our main predictors.
-model_summary3 <- summary(forward_model)
-model_table3 <- as.data.frame(model_summary3$coefficients)
-
-knitr::kable(model_table3)
-
-
-save_table3<-here::here("results","tables", "model_table3.rds")
-saveRDS(model_table3,file =save_table3 )
+#we shall stick on the two model tables (model-table1 and model table 2)for our final decision depending on what the 
+#ML models will provide
 
 #lets try using the ml model_table1. load the necessary packages.
-library(glmnet)       # For LASSO regression
+library(glmnet)     
 library(ranger)
 library(recipes)
 library(tidymodels)  
@@ -370,7 +414,7 @@ lasso_results <- tune_grid(
   lasso_workflow,
   resamples = cv_folds,
   grid = lasso_grid,
-  metrics = metric_set(rmse)
+  metrics = metric_set(rmse, rsq, mae)
 )
 
 # Best penalty
@@ -383,6 +427,45 @@ final_lasso_fit <- fit(final_lasso, Final_data)
 # Coefficients
 lasso_coeffs <- tidy(final_lasso_fit)
 print(lasso_coeffs)
+
+##############################################################################
+###########################################################################
+
+#using the linear regression model
+
+# Create a linear regression model specification
+
+linear_model <- linear_reg() %>%
+  set_engine("lm")
+
+# Create workflow
+linear_workflow <- workflow() %>%
+  add_model(linear_model) %>%
+  add_recipe(model_recipe)
+
+# 5x5 CV (reuse cv_folds)
+linear_results <- fit_resamples(
+  linear_workflow,
+  resamples = cv_folds,
+  metrics = metric_set(rmse, rsq, mae)
+)
+
+# Final fit on the full data
+final_linear_fit <- fit(linear_workflow, Final_data)
+
+
+
+# Fit the model to the data
+linear_fit <- fit(linear_workflow, data = Final_data)
+
+# Coefficients
+linear_coeffs <- tidy(final_linear_fit)
+print(linear_coeffs)
+
+
+
+################################################################################
+############################################################################
 
 #using random forest tuning and fitting
 rf_model <- rand_forest(
@@ -397,21 +480,29 @@ rf_workflow <- workflow() %>%
   add_model(rf_model) %>%
   add_recipe(model_recipe)
 
-rf_grid <- grid_regular(
-  mtry(range = c(1, 6)),
-  min_n(range = c(1, 20)),
-  levels = 5
+
+# Random forest tuning grid
+rf_grid <- grid_random(
+  finalize(mtry(), Final_data),
+  min_n(),
+  size = 20
 )
 
 rf_results <- tune_grid(
   rf_workflow,
   resamples = cv_folds,
   grid = rf_grid,
-  metrics = metric_set(rmse)
+  metrics = metric_set(rmse, rsq, mae)
 )
 
-# Best parameters
-best_rf <- select_best(rf_results, metric= "rmse")
+# View tuning results
+print(collect_metrics(rf_results))
+
+# Plot tuning results
+autoplot(rf_results)
+
+# Best hyperparameters
+best_rf <- select_best(rf_results, metric = "rmse")
 
 # Finalize and fit
 final_rf <- finalize_workflow(rf_workflow, best_rf)
@@ -438,38 +529,120 @@ ggsave(here("results", "figures", "Variable_plot.png"),
        plot = variable_plot, width = 8, height = 4, dpi = 300)
 
 
-#Getting predictions from the random forests model and the lasso model to see
-#which one has better perfomance.
-# Make predictions
+
+
+
+##################################################################################
+###############################################################################
+ 
+#creating a comparison table2
+# Collect metrics for LASSO
+lasso_metrics <- collect_metrics(lasso_results) %>%
+  filter(penalty == best_lasso$penalty) %>%
+  mutate(model = "LASSO")
+
+# Collect metrics for Linear Regression
+linear_metrics <- collect_metrics(linear_results) %>%
+  mutate(model = "Linear Regression")
+
+# Collect metrics for Random Forest
+rf_metrics <- collect_metrics(rf_results) %>%
+  filter(mtry == best_rf$mtry, min_n == best_rf$min_n) %>%
+  mutate(model = "Random Forest")
+
+# Combine all metrics together
+all_metrics <- bind_rows(lasso_metrics, linear_metrics, rf_metrics) %>%
+  dplyr::select(model, .metric, mean, std_err) %>%
+  pivot_wider(
+    names_from = .metric,
+    values_from = c(mean, std_err)
+  )
+all_metrics
+
+# Install gt if you don't have it
+# install.packages("gt")
+
+library(gt)
+
+# Create a nice table
+all_metrics %>%
+  gt() %>%
+  fmt_number(
+    columns = everything(),
+    decimals = 3
+  ) %>%
+  tab_header(
+    title = "Model Comparison Table",
+    subtitle = "5x5 Cross-Validation Performance Metrics"
+  )
+
+# Saving  gt table as an image
+
+# First, create your gt table
+comparison_table <- all_metrics %>%
+  gt() %>%
+  fmt_number(
+    columns = everything(),
+    decimals = 3
+  ) %>%
+  tab_header(
+    title = "Model Comparison Table",
+    subtitle = "5x5 Cross-Validation Performance Metrics"
+  )
+
+#saving the table
+gtsave(
+  data = comparison_table,
+  filename = "results/tables/model_comparison_table.png"
+)
+
+ 
+ 
+ 
+################################################################################
+################################################################################
+#Making plots of the three models
+library(dplyr)
+# First, create prediction dataframes for each model
 lasso_preds <- predict(final_lasso_fit, new_data = Final_data) %>%
-  bind_cols(Final_data %>% dplyr::select(CD4.Immune.activation.count))
+  bind_cols(Final_data %>% dplyr::select(CD4.Immune.activation.count)) %>%
+  mutate(Model = "LASSO")
+
+lm_preds <- predict(linear_fit, new_data = Final_data) %>%
+  bind_cols(Final_data %>% dplyr::select(CD4.Immune.activation.count)) %>%
+  mutate(Model = "Linear Regression")
 
 rf_preds <- predict(final_rf_fit, new_data = Final_data) %>%
-  bind_cols(Final_data %>% dplyr::select(CD4.Immune.activation.count))
+  bind_cols(Final_data %>% dplyr::select(CD4.Immune.activation.count)) %>%
+  mutate(Model = "Random Forest")
 
-# RMSE
-lasso_rmse <- rmse(lasso_preds, truth = CD4.Immune.activation.count, estimate = .pred)
-rf_rmse <- rmse(rf_preds, truth = CD4.Immune.activation.count, estimate = .pred)
+# Combine all predictions into one dataframe
+all_preds <- bind_rows(lasso_preds, lm_preds, rf_preds)
 
-print(lasso_rmse)
-print(rf_rmse)
-
-#This shows that the random forests model is predicting better compared to 
-#the lasso model. It is capturing more data points than the lasso model.
-
-
-# Plotting the predicted over the observed.
-plot_obs_vs_pred <- function(data, title) {
-  ggplot(data, aes(x = CD4.Immune.activation.count, y = .pred)) +
-    geom_point(alpha = 0.5) +
-    geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "blue") +
-    labs(title = title, x = "Observed", y = "Predicted") +
-    theme_minimal()
-}
+# Create the combined plot
+library(ggplot2)
 library(patchwork)
-combined_plot <- plot_obs_vs_pred(lasso_preds, "LASSO") +
-  plot_obs_vs_pred(rf_preds, "Random Forest")
+
+# Option 1: Single plot with all models using color
+combined_plot <- ggplot(all_preds, aes(x = CD4.Immune.activation.count, y = .pred, color = Model)) +
+  geom_point(alpha = 0.6) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "black") +
+  labs(x = "Observed", y = "Predicted",
+       title = "Predicted vs. Observed: Model Comparison") +
+  theme_minimal() +
+  facet_wrap(~Model, ncol = 3)
 combined_plot
+
+# Save the plot
+library(here)
 ggsave(here("results", "figures", "Predicted_vs_Observed.png"),
-       plot = combined_plot, width = 8, height = 4, dpi = 300)
+       plot = combined_plot, width = 10, height = 4, dpi = 300)
+
+#since interpretation matter to us, even if the random forest model is 
+#doing better thatn the lasso, we chose to interprete the lasso model
+
+#we shall extract coefficients from this model and interprete them.
+final_lasso_fit <- fit(final_lasso, Final_data)
+lasso_coeffs <- tidy(final_lasso_fit)
+print(lasso_coeffs)
 
